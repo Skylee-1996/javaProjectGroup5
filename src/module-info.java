@@ -1,0 +1,2 @@
+module JavaProjectGroup5 {
+}
