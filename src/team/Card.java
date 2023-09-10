@@ -37,13 +37,43 @@ class Card {
     // 값을 출력 시 패딩을 추가하는 함수
     private String padValue(String value) {
         if (value.equals("10")) {
-            return  value + " "; // "10"의 경우 튀
+            return  value + " "; // "10"의 경우 
         } else if (value.length() == 1) {
             return " " + value + " ";
         } else {
             return value;
         }
     }
+    public String getBack() {
+        return 
+                "┌─────┐\n" +
+                "│Ezen │\n" +  
+                "│     │\n" +
+                "│Ezen │\n" +
+                "└─────┘";
+    }
+
+	public String getShape() {
+		return shape;
+	}
+
+	public void setShape(String shape) {
+		this.shape = shape;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
+	}
+
+	
 
 
 }
