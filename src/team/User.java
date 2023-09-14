@@ -33,8 +33,7 @@ public class User {
     	int balance = scan.nextInt();
     	user2.put(name, balance);
     	System.out.println("입력하신 정보로 등록되었습니다.");
-    	System.out.println("메뉴를 선택해주세요.> ");
-    	
+    	System.out.println("메뉴를 선택해주세요.> ");	
     }
     
     //회원삭제
@@ -44,14 +43,15 @@ public class User {
     	String id = scan.next();
     	System.out.println("회원명: ");
     	String name = scan.next();
-    	for(String tmp : user1.keySet()); {
-    	for(String tmp2 : user2.keySet());{
-    	user1.remove(id);
-    	user2.remove(name);
-    	System.out.println("삭제가 완료되었습니다.");
-    	System.out.println("메뉴를 선택해주세요.> ");
-    }
-    	}
+    	 if(user1.containsKey(id) && user2.containsKey(name)) {
+    	        user1.remove(id);
+    	        user2.remove(name);
+    	        System.out.println("삭제가 완료되었습니다.");
+    	    } else {
+    	        System.out.println("회원정보가 일치하지 않거나 없는 회원입니다.");
+    	    }
+    	    System.out.println("메뉴를 선택해주세요.> ");
+
     }
 
     //회원수정
@@ -204,5 +204,4 @@ public class User {
 	            rank++;
 	        }
 	    }
-	    
 }

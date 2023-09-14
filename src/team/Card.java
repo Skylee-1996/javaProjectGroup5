@@ -23,7 +23,7 @@ class Card {
 
     @Override
     public String toString() {
-        String valueString = padValue(value); // 값을 출력 시 패딩을 추가
+        String valueString = padValue(value); 
         
 
         return 
@@ -35,15 +35,14 @@ class Card {
     }
 
     // 값을 출력 시 패딩을 추가하는 함수
-    private String padValue(String value) {
-        if (value.equals("10")) {
-            return  value + " "; // "10"의 경우 
-        } else if (value.length() == 1) {
-            return " " + value + " ";
-        } else {
-            return value;
-        }
-    }
+   
+    	private String padValue(String value) {
+    	    if (value.equals("10")) {
+    	        return value + " "; 
+    	    } else {
+    	        return " " + value + " ";
+    	    }
+    	}
     public String getBack() {
         return 
                 "┌─────┐\n" +
