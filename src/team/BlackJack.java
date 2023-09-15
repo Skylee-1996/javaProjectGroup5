@@ -50,11 +50,13 @@ public class BlackJack {
 			char choice = scan.next().charAt(0);
 			
 			if(choice=='y') {
+				int move = 0;
 				BJM.start();
-				while(BJM.getUCsum()<21) {
+				
+				while(move==2) {
 					BJM.printChoice();	
 					System.out.print("행동을 선택해주세요> ");
-					int move = scan.nextInt();
+					move = scan.nextInt();
 					switch(move){
 					case 1:	BJM.hit();
 						break;
@@ -70,12 +72,20 @@ public class BlackJack {
 					}
 				}
 				
-				
-				
-				
-				
-				
-				
+				switch(BJM.result()) {
+				case 0: System.out.println("진행자 BUST, 유저 WIN");
+					break a;
+				case 1:	System.out.println("유저 WIN");
+					break a;
+				case 2: System.out.println("Push");
+					break a;
+				case 3:	System.out.println("유저 BUST, 진행자 WIN");
+					break a;
+				case 4: System.out.println("진행자 WIN");
+					break a;
+				case 999: System.out.println("오류발생");
+					break a;
+				}
 			}else if(choice=='n') {
 				System.out.println("게임을 종료합니다.");
 				break a;
@@ -96,7 +106,9 @@ class BlackJackManager{
 	private int UCsum;
 	private int DCsum;
 	
-	public void printRule() {
+	public BlackJackManager() {}
+	
+	public void printRule() {				//룰설명
 		
 	}
 	
@@ -107,21 +119,29 @@ class BlackJackManager{
 		card.shuffle();
 		
 		System.out.println("진행자 : 카드를 셋팅중입니다.");
-		UC.add(card.drawCard());
-		DC.add(card.drawCard());
-		UC.add(card.drawCard());
-		DC.add(card.drawCard());
+		
+		UC.add(card.drawCard());	//유저 한장
+		DC.add(card.drawCard());	//진행자 한장
+		UC.add(card.drawCard());	//유저 한장
+		DC.add(card.drawCard());	//진행자 한장
+		
 		System.out.println("진행자 : 카드 셋팅이 완료되었습니다.");
 		
 		
 		//드로우한 카드 보여주는곳
 		System.out.println("진행자의 카드");
-		System.out.println(DC.get(0).toString());
-		System.out.println("------------------------");
 		
+		System.out.println(DC.get(0).toString());	//진행자는 첫 드로우한 패부터 보여줌
+		setDCsum(getDValue(DC.get(0)));				//진행자의 카드패의 값을 누적연산
+		setDCsum(getDValue(DC.get(1)));
+		
+		System.out.println("------------------------");
 		System.out.println("당신의 카드");
-		System.out.println(UC.get(0).toString());
+		
+		System.out.println(UC.get(0).toString());	//유저의 패 보기
 		System.out.println(UC.get(1).toString());
+		setUCsum(getUValue(UC.get(0)));				//유저의 패 누적연산
+		setUCsum(getUValue(UC.get(1)));
 	}
 	
 	public void printChoice() {
@@ -132,43 +152,93 @@ class BlackJackManager{
 		System.out.println("Hit!!!");
 		System.out.println("------------------------");
 		System.out.println("당신의 카드");
-		UC.add(card.drawCard());
+		
+		UC.add(card.drawCard());						//유저가 hit동작시, 카드 드로우 후
 		for(int i=0; i<UC.size(); i++) {
-			System.out.println(UC.get(i).toString());
+			System.out.println(UC.get(i).toString());	//지금까지 뽑은 카드 출력
 		}
+		
 		System.out.println("------------------------");
 	}
 	
 	public void stand() {
 		System.out.println("Stand!!!");
-		while(DCsum<=16) {
-			DC.add(card.drawCard());
+		System.out.println("------------------------");
+		System.out.println("진행자의 카드");
+		
+		int cnt=2;
+		while(DCsum<=16) {								//유저가 stand선택시, 진행자만 카드를 뽑은다.
+			DC.add(card.drawCard());					//16이하면 진행자는 무조건 카드를 뽑아야한다.
+			setDCsum(getDValue(DC.get(cnt)));			//카드를 계속 뽑으면 그 값 누적연산
+			cnt++;
 		}
-		if(DCsum>=17) {
+		if(DCsum>=17) {									//17이상이면 진행자 또한 stand동작 진행
 			for(int i=0; i<DC.size(); i++) {
-				System.out.println(DC.get(i).toString());
+				System.out.println(DC.get(i).toString());	//진행자가 지금까지 뽑은 카드 출력
 			}
 		}
+		
+		System.out.println("------------------------");
 	}
-	
 	
 	public void doubleDown() {
 		System.out.println("DoubleDown!!!");
 		System.out.println("------------------------");
 		System.out.println("당신의 카드");
-		UC.add(card.drawCard());
-		for(int i=0; i<UC.size(); i++) {
+		
+		UC.add(card.drawCard());						//doubledown 동작시, 배팅금액 2배 레이즈하면서 hit동작과 동일
+		for(int i=0; i<UC.size(); i++) {				//카드를 드로우하고 유저의 카드 전체 출력
 			System.out.println(UC.get(i).toString());
 		}
+		
 		System.out.println("------------------------");
 	}
+	
+	
+	
+	public int result() {
+		if(DCsum>21) {									//진행자가 21을 넘어가면 진행자 버스트로 패배
+			return 0;								
+		}else if(21-UCsum<21-DCsum) {					//남은 숫자가 더 큰쪽은 근접하지 못했다는 의미로 진행자 패배
+			return 1;
+		}else if(DCsum==UCsum) {						//숫자가 같으면 push
+			return 2;
+		}else if(UCsum>21) {							//유저가 21을 넘어가면 유저 버스트로 패배
+			return 3;
+		}else if(21-UCsum>21-DCsum) {					//유저 패배
+			return 4;
+		}else
+			return 999;
+	}
+	
+	
 
-	public int getValue(Card card) {
+	public int getUValue(Card card) {
         String cardValue = card.getValue();
         switch (cardValue) {
-            case "A": if(UCsum<=10) {
+            case "A": if(UCsum<=10) {				//유저의 A는 10이하면 11로 연산
             	return 11;
-            }else if(UCsum>=11) {
+            }else if(UCsum>=11) {					//유저의 A는 11이상이면 1로 연산
+            	return 1;
+            }
+            case "2": return 2;
+            case "3": return 3;
+            case "4": return 4;
+            case "5": return 5;
+            case "6": return 6;
+            case "7": return 7;
+            case "8": return 8;
+            case "9": return 9;
+            default: return 10;
+        }
+    }
+	
+	public int getDValue(Card card) {
+        String cardValue = card.getValue();
+        switch (cardValue) {
+            case "A": if(DCsum<=10) {				//진행자의 A는 10이하면 11로 연산
+            	return 11;
+            }else if(DCsum>=11) {					//진행자는 bust되지 않는 한, 11로 연산한다. 
             	return 1;
             }
             case "2": return 2;
@@ -189,7 +259,7 @@ class BlackJackManager{
 	}
 
 	public void setUCsum(int uCsum) {
-		UCsum = uCsum;
+		UCsum += uCsum;
 	}
 
 	public int getDCsum() {
@@ -197,6 +267,6 @@ class BlackJackManager{
 	}
 
 	public void setDCsum(int dCsum) {
-		DCsum = dCsum;
+		DCsum += dCsum;
 	}
 }

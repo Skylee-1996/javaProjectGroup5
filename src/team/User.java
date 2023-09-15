@@ -35,6 +35,7 @@ public class User {
     	System.out.println("입력하신 정보로 등록되었습니다.");
     	System.out.println("메뉴를 선택해주세요.> ");
     	
+    	System.out.println("메뉴를 선택해주세요.> ");	
     }
     
     //회원삭제
@@ -44,6 +45,7 @@ public class User {
     	String id = scan.next();
     	System.out.println("회원명: ");
     	String name = scan.next();
+<<<<<<< HEAD
     	if (user1.containsKey(id) && user2.containsKey(name)) {
     	user1.remove(id);
     	user2.remove(name);
@@ -52,6 +54,18 @@ public class User {
     }
     	}
     
+=======
+    	 if(user1.containsKey(id) && user2.containsKey(name)) {
+    	        user1.remove(id);
+    	        user2.remove(name);
+    	        System.out.println("삭제가 완료되었습니다.");
+    	    } else {
+    	        System.out.println("회원정보가 일치하지 않거나 없는 회원입니다.");
+    	    }
+    	    System.out.println("메뉴를 선택해주세요.> ");
+
+    }
+>>>>>>> 33ab7dbb000e3b9168e9c6ad9d4fad602251fd46
 
     //회원수정
     public void editUser() {
