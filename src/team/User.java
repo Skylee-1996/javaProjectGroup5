@@ -44,15 +44,14 @@ public class User {
     	String id = scan.next();
     	System.out.println("회원명: ");
     	String name = scan.next();
-    	for(String tmp : user1.keySet()); {
-    	for(String tmp2 : user2.keySet());{
+    	if (user1.containsKey(id) && user2.containsKey(name)) {
     	user1.remove(id);
     	user2.remove(name);
     	System.out.println("삭제가 완료되었습니다.");
     	System.out.println("메뉴를 선택해주세요.> ");
     }
     	}
-    }
+    
 
     //회원수정
     public void editUser() {
