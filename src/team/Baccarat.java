@@ -42,14 +42,11 @@ public class Baccarat {
         System.out.println("뱅커가 카드를 뽑습니다.");
        
         bankerCards.add(deck.drawCard());
-        bankerCards.add(deck.drawCard());
-	
-        Card firstBank = bankerCards.get(0);
         System.out.println("뱅커의 첫번째 카드는!");
-        System.out.println(firstBank);
-        Card secondBank= bankerCards.get(1);
+        deck.printCards(bankerCards);
+        bankerCards.add(deck.drawCard());
         System.out.println("뱅커의 두번째 카드는!");
-        System.out.print(secondBank);
+        deck.printCards(bankerCards);
         int bankerScore = bm.getScore(bankerCards.get(0), bankerCards.get(1));
         System.out.println("뱅커의 스코어:"+bankerScore);
         System.out.println("첫번쨰 카드를 뽑으시겠습니까? enter");

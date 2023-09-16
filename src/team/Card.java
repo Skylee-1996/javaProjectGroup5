@@ -36,7 +36,7 @@ class Card {
 
     // 값을 출력 시 패딩을 추가하는 함수
    
-    	private String padValue(String value) {
+    	public String padValue(String value) {
     	    if (value.equals("10")) {
     	        return value + " "; 
     	    } else {
