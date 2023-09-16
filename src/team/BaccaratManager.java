@@ -1,8 +1,21 @@
 package team;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class BaccaratManager {
+	 public Deck initializeGame() {
+	        Deck deck = new Deck();
+	        deck.shuffle();
+	      
+
+	        System.out.println("게임을 초기화합니다.");
+	        System.out.println("덱을 셔플합니다!");
+	        return deck;
+	    }
+	
+	
+	
 	public String StartBetting(Scanner scan, int userBalance, int betAmount) {
           if(betAmount > userBalance) {
               System.out.println("잔액이 부족합니다.");
@@ -11,6 +24,16 @@ public class BaccaratManager {
           String bet = scan.next();
           return bet;
 	}
+	public void drawCardWithDelay(List<Card> cards, Deck deck) throws InterruptedException {
+	    
+	    Card newCard = deck.drawCard();
+	    System.out.println(newCard.getBack()); // 카드의 뒷면을 보여줌
+	    System.out.println("카드를 뒤집습니다...");
+	    Thread.sleep(2000); // 2초 딜레이
+	    cards.add(newCard);
+	    deck.printCards(cards); // 카드의 앞면을 보여줌
+	}
+	
 	public boolean shouldBankerDrawThirdCard(int bankerScore, int playerThirdCardValue) {
 	    switch (bankerScore) {
 	        case 0:
