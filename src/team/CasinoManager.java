@@ -13,8 +13,7 @@ public class CasinoManager {
 	        String pass = scan.next();
 
 	        boolean foundUser = false;
-
-	        for(int i = 0; i < m.userList.size(); i++) {
+       for(int i = 0; i < m.userList.size(); i++) {
 	            if (m.userList.get(i).getId().equals(id) && m.userList.get(i).getPassword().equals(pass)) {
 	            	
 	                System.out.println("회원명: " + m.userList.get(i).getName() + "자본금: " + m.userList.get(i).getBalance());
@@ -74,6 +73,7 @@ public class CasinoManager {
 		 System.out.println("플레이할 게임을 선택해주세요.");
 		 Baccarat baccarat = new Baccarat();
 		 BlackJackManager blackjack = new BlackJackManager();
+		 IndianPokerManager Indian = new IndianPokerManager();
 		 int menu = 0;	
 		 do {		
 			 System.out.println("게임을 선택해주세요");
@@ -81,13 +81,14 @@ public class CasinoManager {
 				switch(menu) {
 				case 1: baccarat.start(scan, id, userBalance); break;
 				case 2: blackjack.start(); break;
-				case 3: u.rankUsersByBalance(); break;
-				case 4: break;
+				case 3: Indian.gameStart(id, userBalance, u); break;
+				case 4: u.rankUsersByBalance(); break;
+				case 5: break;
 					default:
 						System.out.println("잘못된입력입니다");
 						
 				}				
-			} while(menu != 4);
+			} while(menu != 5);
 			System.out.println("프로그램을 종료합니다.");
 		 
 		 
