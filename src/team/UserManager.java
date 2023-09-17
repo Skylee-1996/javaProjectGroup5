@@ -112,7 +112,14 @@ public class UserManager {
           }
       }
       }
-      
+      public void setUserBalance(String id, int newBalance) {  //게임후 자본금셋팅
+          for (User user : userList) {
+              if (user.getId().equals(id)) {
+                  user.setBalance(newBalance);
+                  return;
+              }
+          }
+      }
       //자본금-메뉴
       public void balanceChoice(Scanner scan) {
          System.out.println("입금:1 ,출금:2, 종료:3");
@@ -212,8 +219,7 @@ public class UserManager {
     		bw.close();
     		fs.close();
     	}
-      	public String[] downList() throws IOException {
-            Scanner scan = new Scanner(System.in);
+      	public void downList() throws IOException {
 
             BufferedReader br = new BufferedReader(new FileReader("user.txt"));
 
@@ -228,12 +234,11 @@ public class UserManager {
                 String pass = copyInfo[1];
                 String name = copyInfo[2];
                 int balance = Integer.parseInt(copyInfo[3]);
-                userList.add(new User(id, pass, name, balance));    
-                br.close();
-                    
-                    return copyInfo;
+                userList.add(new User(id, pass, name, balance)); 
+                System.out.println(userList.size());
+               
+                
                 }
             br.close();
-            return null;
         }
 }

@@ -51,6 +51,7 @@ public class CasinoManager {
 	 public void admin(Scanner scan, UserManager u) throws IOException {
 		//관리자페이지
 		//1.회원등록 | 2.회원삭제 | 3.회원수정 | 4.회원검색 | 5.자본금 | 6.종료
+		 System.out.println("1.회원등록 | 2.회원삭제 | 3.회원수정 | 4.회원검색 | 5.자본금 | 6.종료");
 		 int menu = 0;	
 			do {		
 				menu = scan.nextInt();
@@ -69,7 +70,7 @@ public class CasinoManager {
 			System.out.println("프로그램을 종료합니다.");
 		 
 	 }
-	 public void selectGame(Scanner scan, String id, int userBalance, UserManager u) throws InterruptedException {
+	 public void selectGame(Scanner scan, String id, int userBalance, UserManager u) throws InterruptedException, IOException {
 		 System.out.println("플레이할 게임을 선택해주세요.");
 		 Baccarat baccarat = new Baccarat();
 		 BlackJackManager blackjack = new BlackJackManager();
