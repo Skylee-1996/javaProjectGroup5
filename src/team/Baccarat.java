@@ -7,45 +7,25 @@ import java.util.Scanner;
 
 public class Baccarat {
 	private Deck deck;
+	boolean end = true;
 
 
-
-    public void start(Scanner scan, String id, int userBalance) throws InterruptedException, IOException {
+    public void start(Scanner scan, String id, int userBalance, UserManager u) throws InterruptedException, IOException {
     	List<String> gameHistory = new ArrayList<>();
+    	List<Card> bankerCards = new ArrayList<>();
+        List<Card> playerCards = new ArrayList<>();
     	
     	BaccaratManager bm = new BaccaratManager();
-    	UserManager um= new UserManager();
-    	   while (true) {
+    	
+    	int bankerScore =0;
+    	int playerScore =0;
+    	while (end) {
     		   deck = bm.initializeGame();
-    		   if (!gameHistory.isEmpty()) {
-    	            System.out.println("이전 게임 기록: o:플레이어 승 ■: 뱅커 승 ▲: 타이");
-    	            for (String history : gameHistory) {
-    	                System.out.println(history);
-    	            }
-    	        }
-               List<Card> bankerCards = new ArrayList<>();
-               List<Card> playerCards = new ArrayList<>();
-               
-               System.out.println("현재 잔액: " + userBalance);
-             
-                   
-                   System.out.println("배팅하실 금액을 입력해주세요.");
-                   int betAmount = 0;
-                   while (true) {
-                       try {
-                           System.out.println("배팅하실 금액을 입력해주세요.");
-                           betAmount = scan.nextInt();
-                           if (betAmount <= 0) {
-                               throw new IllegalArgumentException();
-                           }
-                           break;
-                       } catch (Exception e) {
-                           System.out.println("잘못된 입력입니다. 다시 시도하세요.");
-                           scan.nextLine();
-                       }
-                   }
-
-           String bet = bm.StartBetting(scan, userBalance, betAmount);
+    	bm.showHistory(gameHistory);
+        System.out.println("현재 잔액: " + userBalance);           
+        int betAmount = bm.hBetting(scan, userBalance);
+        String bet = bm.wBetting(scan, userBalance, betAmount);
+          
      
         
         System.out.println("덱을 셔플합니다!");
@@ -55,19 +35,21 @@ public class Baccarat {
         bm.delay();
         System.out.println("두번째 카드를 뽑습니다.");
         bm.drawCardWithDelay(bankerCards, deck);
-        int bankerScore = bm.getScore(bankerCards.get(0), bankerCards.get(1));
+        bankerScore = bm.getScore(bankerCards.get(0), bankerCards.get(1));
         System.out.println("뱅커의 점수는:"+bankerScore);
         System.out.println("첫번쨰 카드를 뽑으시겠습니까? enter");
         scan.nextLine();
         scan.nextLine();
-        bm.drawCardWithDelay(playerCards, deck);
+       bm.drawCardWithDelay(playerCards, deck);
+     
         System.out.println("플레이어의 점수는: "+bm.getValue(playerCards.get(0)));
         System.out.println("두번쨰 카드를 뽑으시겠습니까? enter");
         scan.nextLine();
         bm.drawCardWithDelay(playerCards, deck);
-        int playerScore = bm.getScore(playerCards.get(0), playerCards.get(1));
+        playerScore = bm.getScore(playerCards.get(0), playerCards.get(1));
+        deck.printCards(bankerCards, playerCards);
         System.out.println("플레이어의 스코어:" + playerScore);
-     // 플레이어의 3번째 카드 뽑기
+        // 플레이어의 3번째 카드 뽑기
         if (playerScore <= 5) {
             System.out.println("플레이어가 세 번째 카드를 뽑습니다.");
             bm.drawCardWithDelay(playerCards, deck);
@@ -82,34 +64,30 @@ public class Baccarat {
         }
 
         // 새로운 점수 표시
-        System.out.println("플레이어의 새로운 점수는: " + playerScore);
-        System.out.println("뱅커의 새로운 점수는: " + bankerScore);	
-
+        System.out.println("플레이어의 총 점수는: " + playerScore);
+        System.out.println("뱅커의 총 점수는: " + bankerScore);	
         String result = bm.getResult(playerScore, bankerScore);
         System.out.println("결과: " + result);
         String historyresult = bm.historyResult(playerScore, bankerScore);
         gameHistory.add(historyresult);  // 결과 추가
         
-        if ((result.equals("플레이어 승!") && bet.equals("플레이어")) ||
-                (result.equals("뱅커 승!") && bet.equals("뱅커"))) {
+        if ((result.equals("플레이어") && bet.equals("플레이어")) ||
+                (result.equals("뱅커") && bet.equals("뱅커"))) {
                 userBalance += betAmount;
                 System.out.println("축하합니다! 배팅 금액이 2배로 증가했습니다.");
-            } else if (result.equals("타이 게임입니다.") && bet.equals("타이")) {
-                userBalance += betAmount; // 타이의 경우, 배팅 금액이 그대로 반환
-                System.out.println("타이입니다! 배팅 금액이 반환됩니다.");
-            } else {
+            } else if (result.equals("타이") && bet.equals("타이")) {
+                userBalance += betAmount*9; // 타이의 경우, 배팅 금액이 9배로봔환
+                System.out.println("타이입니다! 배팅 금액이 9배로 증가됩니다.");
+            }else if(result.equals("타이") && !bet.equals("타이")){
+            	System.out.println("타이입니다! 배팅금액이 반환됩니다");
+            }else {
                 userBalance -= betAmount;
                 System.out.println("아쉽네요! 배팅 금액을 잃었습니다.");
             }
-        um.setUserBalance(id, userBalance);
-        um.userUpdate();
-     
-        System.out.println("새 게임을 시작하시겠습니까? y/n");
-        String select = scan.next();
-
-        if (select.equals("n")) {
-            break;
-        }
+        u.setUserBalance(id, userBalance);
+        u.userUpdate();
+        end =  bm.endGame(scan, id, userBalance, u);
+        
     	   }//while? 
        } //main   
    	}//class

@@ -71,6 +71,7 @@ public class CasinoManager {
 	 }
 	 public void selectGame(Scanner scan, String id, int userBalance, UserManager u) throws InterruptedException, IOException {
 		 System.out.println("플레이할 게임을 선택해주세요.");
+		 System.out.println("1.바카라 |2.블랙잭 |3.인디언포커 |4.랭킹 |5.종료");
 		 Baccarat baccarat = new Baccarat();
 		 BlackJackManager blackjack = new BlackJackManager();
 		 IndianPokerManager Indian = new IndianPokerManager();
@@ -79,7 +80,7 @@ public class CasinoManager {
 			 System.out.println("게임을 선택해주세요");
 				menu = scan.nextInt();
 				switch(menu) {
-				case 1: baccarat.start(scan, id, userBalance); break;
+				case 1: baccarat.start(scan, id, userBalance, u); break;
 				case 2: blackjack.start(); break;
 				case 3: Indian.gameStart(id, userBalance, u); break;
 				case 4: u.rankUsersByBalance(); break;
@@ -104,51 +105,6 @@ public class CasinoManager {
 		 		+ "         BL        JB     BB         BP    :B         BB         LBJ:  BB     7ZB:  BJ  YB     Q2 .Q:     QB       \r\n"
 		 		+ "         Bd  . .  QB.  .  .BM.   i   BM    rB.         BBP:. .r: BB   7BB  i.  :Qj  BS  UB     BP  PBU...ZQ:       \r\n"
 		 		+ "         RBQBBBQ 7BQRBBBq   5BBQBI   D1    :B           .SBBBBg:  uBBE:1g  vBBBd:   Br  rB     QL   :ZBBQ1         \r\n"
-		 		+ "                                                                                                                   \r\n"
-		 		+ "                                                                                                                   \r\n"
-		 		+ "                                                                                                                   \r\n"
-		 		+ "                                                                                                                   \r\n"
-		 		+ "                                                                                                                   \r\n"
-		 		+ "                                                         vQBQ7   DQ                                                \r\n"
-		 		+ "               r:        :QBQBQBQBB.     QBBBBBBBB:     BR..:BB  MR                                                \r\n"
-		 		+ "            :QBBK                .B.             Bi    JB     B. bg                                                \r\n"
-		 		+ "            .i B2        iBZPEPEPED              B:    .BJ   PB  Zg                                                \r\n"
-		 		+ "               B2        rB                      Q:      XQBBb   gQ                                                \r\n"
-		 		+ "               B2         I2UEBX2XP:             B        .      ED                                                \r\n"
-		 		+ "               BP   .i  7i...rB:..:i7  rv777777i5Bv7:    Bg                                                        \r\n"
-		 		+ "               Bu   EB .DZPbqS1KqPPZd  5DZdZdZbEqIKDr    BBbdgEgEZP                                                \r\n"
-		 		+ "                                                          irrrrrrr7                                                \r\n"
-		 		+ "                                                                                                                   \r\n"
-		 		+ "                                                                                                                   \r\n"
-		 		+ "                                                                                                                   \r\n"
-		 		+ "                                                                                                                   \r\n"
-		 		+ "                                                                                                                   \r\n"
-		 		+ "                                                                                                                   \r\n"
-		 		+ "                            .      :       iri    :              :       :r7     :                                 \r\n"
-		 		+ "                        .:..Bs... 7Q     1BZPEBv  Bv   rMEDPPI  JB     :BgEEBg  :B.                                \r\n"
-		 		+ "            .ZQBQi      sgPBBBZdd iB    .B    .B  Br   :77rivB  7B     Br    BJ .B                                 \r\n"
-		 		+ "            vs  rBi       XXqqP:  iB     qD:.:QX  Bi        sD  rB     BM   :B: .B                                 \r\n"
-		 		+ "                 B:      B7    Bi iB    . JBRQ7   Br       vB   iBBBr   ugBBR:   B                                 \r\n"
-		 		+ "               uBi       PBviiPB  iB   iBZUjB1JQB Bi      ZB    rB       .       :                                 \r\n"
-		 		+ "             5P:           iBX    iB        B  PbQBr   iZB7     rB       Bu::i::jB                                 \r\n"
-		 		+ "            BB  ... 7S  EP2sBEuKd:iQ     iB       i    Lv       7Q       BgJUU2JZB                                 \r\n"
-		 		+ "            gRRBQBJ uB  7vrr:ir77.rB     :BBRBBBBBMY            sB       BQbPdPPRB                                 \r\n"
-		 		+ "                                  .r              .             .r                                                 \r\n"
-		 		+ "                                                                                                                   \r\n"
-		 		+ "                                                                                                                   \r\n"
-		 		+ "                                                                                                                   \r\n"
-		 		+ "                                                                                                                   \r\n"
-		 		+ "                                                                                                                   \r\n"
-		 		+ "                                                                                                                   \r\n"
-		 		+ "                         ....   ....                                                                               \r\n"
-		 		+ "                         KQdPBBBbEBs     rJvvvvvvr.                                                                \r\n"
-		 		+ "            rBBBB7         .JP7dr.       7JjJusJYBD                                                                \r\n"
-		 		+ "                7B      .EX7    .v2K     PdIKSqSXBJ                                                                \r\n"
-		 		+ "             rvJPr     .JJi..YQi.:7us    Bi                                                                        \r\n"
-		 		+ "             v5ug2     .Xs72QBQBMY7jI    EBBQgRBBQP                                                                \r\n"
-		 		+ "                 B1       vU7v7v7Ii        B   7Q                                                                  \r\n"
-		 		+ "            qUYYRB  XB   .B7     PB    DBQBQBQQBBRBBJ                                                              \r\n"
-		 		+ "            :IX5:   iU    .qMBBBg2     ...       ...                                                               \r\n"
 		 		+ "                                                                                                                   \r\n"
 		 		+ "                                                                                                                   \r\n"
 		 		+ "                                                                                                                   \r\n"

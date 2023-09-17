@@ -1,11 +1,5 @@
 package team;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-
-
 class Card {
     private int index;
     private String shape;

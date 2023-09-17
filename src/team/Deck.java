@@ -104,5 +104,45 @@ public class Deck {
         System.out.println(bottomLine1.toString());
         System.out.println(bottomLine.toString());
     }
+    public void printCards(List<Card> cards1, List<Card> cards2) {
+        if (cards1.isEmpty() && cards2.isEmpty()) {
+            System.out.println("카드가 없습니다!");
+            return;
+        }
+
+        StringBuilder topLine = new StringBuilder();
+        StringBuilder middleLine1 = new StringBuilder();
+        StringBuilder middleLine2 = new StringBuilder();
+        StringBuilder bottomLine1 = new StringBuilder();
+        StringBuilder bottomLine = new StringBuilder();
+
+        for (Card card : cards1) {
+            topLine.append("┌─────┐");
+            middleLine1.append("│" + card.padValue(card.getValue()) + "  │");
+            middleLine2.append("│  " + card.getShape() + "  │");
+            bottomLine1.append("│  " + card.padValue(card.getValue()) + "│");
+            bottomLine.append("└─────┘");
+        }
+
+        topLine.append("       ");
+        middleLine1.append("       ");
+        middleLine2.append("       ");
+        bottomLine1.append("       ");
+        bottomLine.append("       ");
+
+        for (Card card : cards2) {
+            topLine.append("┌─────┐");
+            middleLine1.append("│" + card.padValue(card.getValue()) + "  │");
+            middleLine2.append("│  " + card.getShape() + "  │");
+            bottomLine1.append("│  " + card.padValue(card.getValue()) + "│");
+            bottomLine.append("└─────┘");
+        }
+
+        System.out.println(topLine.toString());
+        System.out.println(middleLine1.toString());
+        System.out.println(middleLine2.toString());
+        System.out.println(bottomLine1.toString());
+        System.out.println(bottomLine.toString());
+    }
 
 }
