@@ -5,13 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class BaccaratManager {
+public class BaccaratManager implements IBaccaratManager {
+	UserManager u = new UserManager();
 	
 		//게임시작 초기화
 	public Deck initializeGame() {
+			
 	        Deck deck = new Deck();
 	        deck.shuffle();
-	        System.out.println("게임을 초기화합니다.");
+	        System.out.println("바카라를 시작합니다.");
 	        System.out.println("덱을 셔플합니다!");
 	        return deck;
 	    }
@@ -71,9 +73,13 @@ public class BaccaratManager {
 	public void showHistory(List<String> gameHistory) {
 		  if (!gameHistory.isEmpty()) {
 	            System.out.println("이전 게임 기록: o:플레이어 승 ■: 뱅커 승 ▲: 타이");
+	            System.out.println("┌───────────────────────────────────────────────┐");
+	            System.out.print("│ ");
 	            for (String history : gameHistory) {
-	                System.out.println(history+"|");
+	            System.out.print(history + "|");
 	            }
+	            System.out.println();
+	            System.out.println("└───────────────────────────────────────────────┘");
 	        }
 	}
 	//뱅커 3번쨰카드 뽑아햐하나
@@ -142,10 +148,10 @@ public class BaccaratManager {
 	        }
 	    }
 	    
-	    //1초 딜레이주기
+	    //1.5초 딜레이주기
 	    public void delay() {
 	        try {
-	            Thread.sleep(1000); 
+	            Thread.sleep(1500); 
 	        } catch (InterruptedException e) {
 	            Thread.currentThread().interrupt(); 
 	        }

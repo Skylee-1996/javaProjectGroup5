@@ -1,5 +1,6 @@
 package team;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -10,15 +11,19 @@ public class CasinoMain {
 					Scanner scan = new Scanner(System.in);
 					UserManager u = new UserManager();
 					CasinoManager m = new CasinoManager();
-					u.downList();
+					try {
+						u.downList();
+					} catch (FileNotFoundException e) {
+						System.out.println("회원가입이 필요합니다");
+					}
+					
 					User playingUser;
 					String id;
 					int userbalance;
 					int menu = 0;	
 					do {
-						m.mainImage();
 						u.printInBox("1.로그인 | 2.회원가입 | 3.관리자페이지 | 4.종료 |");
-						System.out.println("메뉴를 선택하세요");
+						System.out.println("메뉴를 선택하세요:");
 						
 						menu = scan.nextInt();
 						switch(menu) {
