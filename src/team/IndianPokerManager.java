@@ -4,29 +4,39 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class IndianPokerManager {
-	Scanner scan = new Scanner(System.in);
+	Scanner scan;
 	IndianPokerDeck iPK = new IndianPokerDeck();
 	IndianPoker com = new IndianPoker();
 	IndianPoker user;
 	int priceSum = 0;
+	int index = 1;
 	
-	public void gameStart(String id, int userBalance, UserManager uM) throws IOException {
+	public void gameStart(Scanner scan, String id, int userBalance, UserManager uM) throws IOException, InterruptedException {
+		this.scan = scan;
 		user = new IndianPoker(id, userBalance);
 		iPK.shuffle();
 		for(int i = 0; i < 10; i++) {
 			if(user.getMoney() >= 210000 && com.getMoney() >= 210000) {
-				System.out.println((i + 1) + "번째 게임");
 				round();
-				uM.setUserBalance(id, userBalance);
+				uM.setUserBalance(id, user.getMoney());
 				uM.userUpdate();
 			}else {
+				System.out.println("돈이 부족합니다!!");
 				break;
+			}
+			index++;
+
+			System.out.println("================게임 종료================");
+			System.out.println("게임을 계속하려면 엔터키 입력: ");
+			String next = scan.next();
+			if(next != null) {
+				continue;
 			}
 		}
 		
 	}
 	
-	public void round() {
+	public void round() throws InterruptedException {
 		int myChoice1 = 0;
 		int myChoice2 = 0;
 		int comChoice = 0;
@@ -37,16 +47,17 @@ public class IndianPokerManager {
 			com.handCard.remove(i);
 		}
 		System.out.println("=======================================");
+		System.out.println("◆◆◆◆◆◆◆◆◆◆◆◆◆◆" + index + "번째 게임◆◆◆◆◆◆◆◆◆◆◆◆◆◆");
 		System.out.println("게임을 시작합니다.");
 		System.out.println("베팅은 3번까지!");
-		
 		user.handCard.add(iPK.drawCard());
 		priceSum += com.paySetting();
 		com.handCard.add(iPK.drawCard());
 		priceSum += user.paySetting();
+		System.out.println("=======================================");
 		
 		System.out.println("user money: " + user.getMoney());
-		System.out.println("user money: " + com.getMoney());
+		System.out.println("computer money: " + com.getMoney());
 		System.out.println("카드를 받았습니다.");
 		
 		System.out.println("상대방의 카드");
@@ -209,8 +220,6 @@ public class IndianPokerManager {
 			}
 			
 		}
-		System.out.println("게임종료");
-		System.out.println("=========================");
 		
 	}
 	public void checkWin() {
@@ -358,6 +367,7 @@ public class IndianPokerManager {
 	public int choice1(Scanner scan) {
 		int choice = 0;
 		while(true) {
+			System.out.println("=======================================");
 			System.out.printf("1.fold | 2.bet   >> ");
 			choice = scan.nextInt();
 			
@@ -371,12 +381,14 @@ public class IndianPokerManager {
 			default:
 				System.out.println("잘못된 선택");
 			}
+			System.out.println("=======================================");
 		}
 	}
 	
 	public int choice2(Scanner scan) {
 		int choice = 0;
 		while(true) {
+			System.out.println("=======================================");
 			System.out.printf("1.fold | 2.bet | 3.check  >> ");
 			choice = scan.nextInt();
 			
@@ -393,11 +405,33 @@ public class IndianPokerManager {
 			default:
 				System.out.println("잘못된 선택");
 			}
+			System.out.println("=======================================");
 		}
 	}
 	
-	public int comCal() {
+	public int comCal() throws InterruptedException {
 		int random1 = 0;
+		Thread loginThread = new Thread(() -> {
+            try {
+            	System.out.println("=======================================");
+                System.out.print("컴퓨터가 선택중입니다.");
+                for (int j = 0; j < 3; j++) {
+                    Thread.sleep(500);
+                    System.out.print(".");
+                }
+                System.out.println();
+                System.out.println("=======================================");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        loginThread.start();
+
+        try {
+            loginThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 		if((user.handCard.get(0).getIndex() == 0) || (user.handCard.get(0).getIndex() == 10)) { //숫자1
 			com.setMoney(40000);
 			return 40000;
