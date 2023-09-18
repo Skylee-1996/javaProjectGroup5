@@ -72,32 +72,7 @@ public class IndianPoker {
 //		
 //	}
 	
-	public void printCards(List<Card> cards) {
-        if (cards.isEmpty()) {
-            System.out.println("카드가 없습니다!");
-            return;
-        }
-
-        StringBuilder topLine = new StringBuilder();
-        StringBuilder middleLine1 = new StringBuilder();
-        StringBuilder middleLine2 = new StringBuilder();
-        StringBuilder bottomLine1 = new StringBuilder();
-        StringBuilder bottomLine = new StringBuilder();
-
-        for (Card card : cards) {
-            topLine.append("┌─────┐");
-            middleLine1.append("│" + card.padValue(card.getValue()) + "  │");
-            middleLine2.append("│  " + card.getShape() + "  │");
-            bottomLine1.append("│  " + card.padValue(card.getValue()) + "│");
-            bottomLine.append("└─────┘");
-        }
-
-        System.out.println(topLine.toString());
-        System.out.println(middleLine1.toString());
-        System.out.println(middleLine2.toString());
-        System.out.println(bottomLine1.toString());
-        System.out.println(bottomLine.toString());
-    }
+	
 	
 	public int paySetting() {
 		this.money -= 10000;

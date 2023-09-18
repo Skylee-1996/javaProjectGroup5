@@ -22,27 +22,40 @@ public class UserManager {
 		    System.out.print("회원ID: ");
 		    String id = scan.next();
 		    
+		    //아이디 중복 확인
+		    if (isUserIdExists(id)) {
+		        System.out.println("이미 존재하는 아이디입니다.");
+		        return;
+		    }
+		    
 		    System.out.print("비밀번호: ");
 		    String password = scan.next();     
 		    
 		    System.out.print("회원명: ");
 		    String name = scan.next();
-		    
-		    System.out.print("자본금: ");
-		    int balance = scan.nextInt();
 
 		    //입력 검증
-		    if (id.isEmpty() || password.isEmpty() || name.isEmpty() || balance < 0) {
+		    if (id.isEmpty() || password.isEmpty() || name.isEmpty()) {
 		        System.out.println("잘못된 입력입니다. 모든 필드를 올바르게 채우세요.");
 		        return;
 		    }
 
-		    userList.add(new User(id, password, name, balance));
+		    userList.add(new User(id, password, name));
 		    System.out.println("입력하신 정보로 등록되었습니다.");
 		    userUpdate();
 		    System.out.print("메뉴를 선택해주세요.> ");
+	  }
+
+	  //아이디 중복검사
+	  private boolean isUserIdExists(String id) {
+		    for (User user : userList) {
+		        if (user.getId().equals(id)) {
+		            return true;
+		        }
+		    }
+		    return false;
 		}
-    
+	  
     //회원삭제
 	  public void deleteUser(Scanner scan) throws IOException {
 		    System.out.println("삭제하실 회원ID와 비밀번호를 입력해주세요.");
@@ -72,7 +85,7 @@ public class UserManager {
 
     //회원수정
 	  public void editUser(Scanner scan) throws IOException {
-		    System.out.println("기존 회원ID와 회원명을 입력해주세요.");
+		    System.out.println("기존 회원ID와 비밀번호를 입력해주세요.");
 		    System.out.println("회원ID: ");
 		    String id = scan.next();
 		    System.out.println("비밀번호: ");
@@ -136,7 +149,7 @@ public class UserManager {
                         
     //회원검색 후 출력
     public void searchUser(Scanner scan) {
-        System.out.println("검색하실 회원ID와 회원명을 입력해주세요.");
+        System.out.println("검색하실 회원ID와 비밀번호를 입력해주세요.");
         System.out.println("회원ID: ");
         String id = scan.next();
         System.out.println("비밀번호: ");
@@ -198,7 +211,7 @@ public class UserManager {
     }
       //자본금-입금
     public void depositMoney(Scanner scan) {
-        System.out.println("회원ID와 회원명을 입력해주세요.");
+        System.out.println("회원ID와 비밀번호를 입력해주세요.");
         System.out.println("회원ID: ");
         String id = scan.next();
         System.out.println("비밀번호: ");
@@ -208,9 +221,9 @@ public class UserManager {
                 try {
                     System.out.println("입금하실 금액을 입력해주세요.");
                     int amount = scan.nextInt();
-                    userList.get(i).setBalance(userList.get(i).getBalance() + amount);
+                    int balance = userList.get(i).setBalance(amount);
                     System.out.println("입력하신 " + amount + "원이 성공적으로 입금처리되었습니다.");
-                    System.out.println("현재 자본금: " + userList.get(i).getBalance()+"원");
+                    System.out.println("잔액: " +userList.get(i).getBalance()+"원");
                     return;
                 } catch (InputMismatchException e) {
                     System.out.println("유효하지 않은 금액입니다. 숫자로 입력해주세요.");
@@ -223,24 +236,23 @@ public class UserManager {
       
       //자본금-출금
       public void withdrawMoney(Scanner scan) {
-          System.out.println("회원ID와 회원명을 입력해주세요.");
+          System.out.println("회원ID와 비밀번호를 입력해주세요.");
           System.out.println("회원ID: ");
           String id = scan.next();
-          System.out.println("회원명: ");
-          String name = scan.next();
+          System.out.println("비밀번호: ");
+          String password = scan.next();
           for(int i=0;i<userList.size();i++) {             
-          if (userList.get(i).getId().equals(id)&&userList.get(i).getId().equals(name)) {
+          if (userList.get(i).getId().equals(id)&&userList.get(i).getPassword().equals(password)) {
               System.out.println("출금하실 금액을 입력해주세요.");
-              int amount = scan.nextInt();
+              int amount = scan.nextInt();          
               if (userList.get(i).getBalance() >= amount) {
-                 
+            	 userList.get(i).setBalance(userList.get(i).getBalance()-amount); 
                   System.out.println("입력하신 " + amount + "원이 성공적으로 출금처리되었습니다.");
-                  System.out.println("잔액: " + userList.get(i).getBalance()+"원");
+                  System.out.println("잔액: " +userList.get(i).getBalance()+"원");
               } else {
                   System.out.println("잔액이 부족합니다.");
               }
-          }
-          System.out.println("회원정보가 일치하지 않거나 없는 회원입니다.");
+          }        
       }
       }
 
@@ -307,10 +319,16 @@ public class UserManager {
                 }
             br.close();
         }
+<<<<<<< HEAD
       public void printInBox(String s) {
     	   System.out.println("┌───────────────────────────────────────────────┐");
 	       System.out.println("│ "+s+" ");
 	       System.out.println("└───────────────────────────────────────────────┘");
       }
       
+=======
+      	
+      	
+      	
+>>>>>>> 18ce944a3a5a125be7dbe3cb2666943b3f802c3f
 }
