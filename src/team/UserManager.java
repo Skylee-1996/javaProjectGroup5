@@ -319,16 +319,12 @@ public class UserManager {
                 }
             br.close();
         }
-<<<<<<< HEAD
+
       public void printInBox(String s) {
     	   System.out.println("┌───────────────────────────────────────────────┐");
 	       System.out.println("│ "+s+" ");
 	       System.out.println("└───────────────────────────────────────────────┘");
       }
       
-=======
-      	
-      	
-      	
->>>>>>> 18ce944a3a5a125be7dbe3cb2666943b3f802c3f
+
 }
