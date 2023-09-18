@@ -1,6 +1,7 @@
 package team;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -36,10 +37,15 @@ public class BaccaratManager {
 	
 	//어디배팅
 	public String wBetting(Scanner scan, int userBalance, int betAmount) {
-          if(betAmount > userBalance) {
+		   
+	       System.out.println("┌───────────────────────┐");
+	       System.out.println("│ 플레이어 o 뱅커 ■  타이 ▲  ");
+	       System.out.println("└───────────────────────┘");
+	        
+		if(betAmount > userBalance) {
               System.out.println("잔액이 부족합니다.");
           }
-          System.out.println("배팅하실 곳을 선택해주세요 뱅커/플레이어/타이");
+       System.out.println("배팅할 곳을 입력해주세요");
           String bet = scan.next();
           return bet;
 	}
@@ -53,13 +59,20 @@ public class BaccaratManager {
 	    cards.add(newCard);
 	    deck.printCards(cards); // 카드의 앞면을 보여줌
 	}
-	
+	//카드 뒷면 출력
+	public void printBack() throws InterruptedException {
+		Card back = new Card(1,"1","1");
+		System.out.println(back.getBack());
+		System.out.println("카드를 뒤집습니다...");
+	    Thread.sleep(2000); // 2초 딜레이
+		
+	}
 	//게임기록
 	public void showHistory(List<String> gameHistory) {
 		  if (!gameHistory.isEmpty()) {
 	            System.out.println("이전 게임 기록: o:플레이어 승 ■: 뱅커 승 ▲: 타이");
 	            for (String history : gameHistory) {
-	                System.out.println(history);
+	                System.out.println(history+"|");
 	            }
 	        }
 	}

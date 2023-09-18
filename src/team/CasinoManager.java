@@ -16,7 +16,7 @@ public class CasinoManager {
        for(int i = 0; i < m.userList.size(); i++) {
 	            if (m.userList.get(i).getId().equals(id) && m.userList.get(i).getPassword().equals(pass)) {
 	            	
-	                System.out.println("회원명: " + m.userList.get(i).getName() + "자본금: " + m.userList.get(i).getBalance());
+	                System.out.println("회원명: " + m.userList.get(i).getName() + " 자본금: " + m.userList.get(i).getBalance());
 	                foundUser = true;
 	                Thread loginThread = new Thread(() -> {
 	                    try {

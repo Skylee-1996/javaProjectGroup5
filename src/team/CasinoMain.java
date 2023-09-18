@@ -17,7 +17,7 @@ public class CasinoMain {
 					int menu = 0;	
 					do {
 						m.mainImage();
-						System.out.println("1.로그인 | 2.회원가입 | 3.관리자페이지 | 4.종료 |");
+						u.printInBox("1.로그인 | 2.회원가입 | 3.관리자페이지 | 4.종료 |");
 						System.out.println("메뉴를 선택하세요");
 						
 						menu = scan.nextInt();

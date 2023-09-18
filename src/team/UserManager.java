@@ -281,7 +281,6 @@ public class UserManager {
     		}
     		
     		data = sb.toString();
-    		System.out.println(data);
     		bw.write(data);
     		
     		bw.close();
@@ -308,4 +307,10 @@ public class UserManager {
                 }
             br.close();
         }
+      public void printInBox(String s) {
+    	   System.out.println("┌───────────────────────────────────────────────┐");
+	       System.out.println("│ "+s+" ");
+	       System.out.println("└───────────────────────────────────────────────┘");
+      }
+      
 }
