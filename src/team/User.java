@@ -12,12 +12,19 @@ public class User {
    
    public User() {}
     
-    public User(String id, String password, String name, int balance) {
+    public User(String id, String password, String name) {
       this.id = id;
       this.password = password;
       this.name = name;
-      this.balance = balance;      
+      this.balance = 10000000;      
     }
+    public User(String id, String password, String name, int balance) {
+        this.id = id;
+        this.password = password;
+        this.name = name;
+        this.balance = balance;      
+      }
+
       public String getId() {
          return id;
       }
@@ -46,8 +53,8 @@ public class User {
          return balance;
       }
 
-      public void setBalance(int balance) {
-         this.balance = balance;
+      public int setBalance(int balance) {
+         return this.balance += balance;
       }
 
       public int getRank() {

@@ -22,7 +22,7 @@ public class Baccarat {
     	while (end) {
     		   deck = bm.initializeGame();
     	bm.showHistory(gameHistory);
-        System.out.println("현재 잔액: " + userBalance);           
+        System.out.println("현재 잔액: " + userBalance + "원");           
         int betAmount = bm.hBetting(scan, userBalance);
         String bet = bm.wBetting(scan, userBalance, betAmount);
           
@@ -37,29 +37,39 @@ public class Baccarat {
         bm.drawCardWithDelay(bankerCards, deck);
         bankerScore = bm.getScore(bankerCards.get(0), bankerCards.get(1));
         System.out.println("뱅커의 점수는:"+bankerScore);
-        System.out.println("첫번쨰 카드를 뽑으시겠습니까? enter");
+        System.out.println("첫번째 카드를 뽑으시겠습니까? enter");
         scan.nextLine();
         scan.nextLine();
-       bm.drawCardWithDelay(playerCards, deck);
-     
-        System.out.println("플레이어의 점수는: "+bm.getValue(playerCards.get(0)));
+        bm.printBack();
+        playerCards.add(deck.drawCard());
+        deck.printCards(bankerCards, playerCards);
+        System.out.println("뱅커의 점수는 : " +bankerScore + "   플레이어의점수는: "+bm.getValue(playerCards.get(0)));
         System.out.println("두번쨰 카드를 뽑으시겠습니까? enter");
         scan.nextLine();
-        bm.drawCardWithDelay(playerCards, deck);
-        playerScore = bm.getScore(playerCards.get(0), playerCards.get(1));
+        bm.printBack();
+        playerCards.add(deck.drawCard());
         deck.printCards(bankerCards, playerCards);
-        System.out.println("플레이어의 스코어:" + playerScore);
+        playerScore = bm.getScore(playerCards.get(0), playerCards.get(1));
+        System.out.println("뱅커의 점수는:"+bankerScore+"  플레이어의 스코어:" + playerScore);
         // 플레이어의 3번째 카드 뽑기
         if (playerScore <= 5) {
+        	System.out.println("플레이어의 점수가 5이하입니다.");
+        	bm.delay();
             System.out.println("플레이어가 세 번째 카드를 뽑습니다.");
-            bm.drawCardWithDelay(playerCards, deck);
+            bm.delay();
+            bm.printBack();
+            playerCards.add(deck.drawCard());
+            deck.printCards(bankerCards, playerCards);
             playerScore = (playerScore + bm.getValue(playerCards.get(2))) % 10;
         }
 
         // 뱅커의 3번째 카드 뽑기 (플레이어의 3번째 카드가 있는 경우에는 추가적인 규칙이 적용됨)
         if (bankerScore <= 5 && (playerCards.size() == 2 || (playerCards.size() == 3 && bm.shouldBankerDrawThirdCard(bankerScore, bm.getValue(playerCards.get(2)))))) {
             System.out.println("뱅커가 세 번째 카드를 뽑습니다.");
-            bm.drawCardWithDelay(bankerCards, deck);
+            bm.delay();
+            bm.printBack();
+            bankerCards.add(deck.drawCard());
+            deck.printCards(bankerCards, playerCards);
             bankerScore = (bankerScore + bm.getValue(bankerCards.get(2))) % 10;
         }
 
@@ -67,7 +77,7 @@ public class Baccarat {
         System.out.println("플레이어의 총 점수는: " + playerScore);
         System.out.println("뱅커의 총 점수는: " + bankerScore);	
         String result = bm.getResult(playerScore, bankerScore);
-        System.out.println("결과: " + result);
+        System.out.println("결과: " + result + " 승!");
         String historyresult = bm.historyResult(playerScore, bankerScore);
         gameHistory.add(historyresult);  // 결과 추가
         
