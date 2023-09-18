@@ -15,7 +15,10 @@ public class CasinoManager {
 
         for (int i = 0; i < m.userList.size(); i++) {
             if (m.userList.get(i).getId().equals(id) && m.userList.get(i).getPassword().equals(pass)) {
+
             	m.printInBox("회원명: " + m.userList.get(i).getName() + " 자본금: " + m.userList.get(i).getBalance()+"원");
+
+
                 foundUser = true;
                 Thread loginThread = new Thread(() -> {
                     try {
@@ -36,19 +39,25 @@ public class CasinoManager {
                     e.printStackTrace();
                 }
                 System.out.println();
+
                 m.printInBox("로그인 성공");
+
                 return m.userList.get(i);
             }
         }
 
         if (!foundUser) {
+
             m.printInBox("존재하지않는 유저입니다");
+
         }
         return null;
     }
 
     public void admin(Scanner scan, UserManager u) throws IOException {
+
         u.printInBox("1.회원등록 | 2.회원삭제 | 3.회원수정 | 4.회원검색 | 5.자본금 | 6.종료");
+
         int menu = 0;
         do {
             menu = scan.nextInt();
@@ -71,16 +80,20 @@ public class CasinoManager {
                 case 6:
                     break;
                 default:
+
                 	u.printInBox("잘못된입력입니다");
+
             }
         } while (menu != 6);
         System.out.println("프로그램을 종료합니다.");
     }
 
     public void selectGame(Scanner scan, String id, int userBalance, UserManager u) throws InterruptedException, IOException {
+
        u.printInBox("1.바카라 |2.블랙잭 |3.인디언포커 |4.랭킹 |5.종료");
         Baccarat baccarat = new Baccarat();
-        BlackJackManager blackjack = new BlackJackManager(); 
+        BlackJack blackjack = new BlackJack(); 
+
         IndianPokerManager Indian = new IndianPokerManager();
         int menu = 0;
         do {
@@ -91,7 +104,9 @@ public class CasinoManager {
                     baccarat.start(scan, id, userBalance, u);
                     break;
                 case 2:
-                  
+
+                    blackjack.start(scan, id, userBalance, u);
+
                     break;
                 case 3:
                     Indian.gameStart(scan, id, userBalance, u);
@@ -109,5 +124,6 @@ public class CasinoManager {
     }
 
     public void mainImage() {
+
     }
 }

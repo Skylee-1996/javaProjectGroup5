@@ -6,17 +6,17 @@ import java.util.ArrayList;
 public class BlackJackManager{
 	ArrayList<Card> DC = new ArrayList<>();		//딜러의 카드팩
 	ArrayList<Card> UC = new ArrayList<>();		//유저의 카드팩
+	
 	Deck card = new Deck();
 	
 	
 	private int DCSum;
 	private int UCSum;
-	
-	
 	private int userBet;
+	private int cnt=2;
+	private int Acnt;
+	private int count;
 
-	
-	public BlackJackManager() {}
 	
 	//유저의 선택지 기술
 	public void printRule() {				//룰설명
@@ -52,23 +52,29 @@ public class BlackJackManager{
 				+ "	 * BlackJack = 배팅금의 2.5배");
 	}
 	
-	public void hit() {
+	public void hit() {	
 		UC.add(card.drawCard());
+		setUCSum(getUCValue(UC.get(cnt)));
+		cnt++;
 	}
 	
+	
 	public void stand() {
-		while(true) {
-			DC.add(card.drawCard());			
+		int i=2;
+		while(getDCSum()<=16) {
+			DC.add(card.drawCard());
+			setDCSum(getDCValue(DC.get(i)));
+			i++;
 		}
 	}
 	
 	public void doubledown() {
 		UC.add(card.drawCard());
+		setUCSum(getUCValue(UC.get(cnt)));
 		setUserBet(getUserBet()*2);
+		cnt++;
 	}
 	
-
-
 	
 	
 	//다양한 설명에 대한 기술
@@ -88,15 +94,18 @@ public class BlackJackManager{
             case "7": return 7;
             case "8": return 8;
             case "9": return 9;
-            default: return 0;
+            default: return 10;
         } 
     }
 	
 	public int getUCValue(Card card) {
         String cardValue = card.getValue();
         switch (cardValue) {
-            case "A": 
+            case "A": if(getUCSum()>10) {
             	return 1;
+            }else if(getUCSum()<11) {
+            	return 11;
+            }
             case "2": return 2;
             case "3": return 3;
             case "4": return 4;
@@ -105,10 +114,9 @@ public class BlackJackManager{
             case "7": return 7;
             case "8": return 8;
             case "9": return 9;
-            default: return 0;
+            default: return 10;
         } 
     }
-	
 	
 	
 	
@@ -118,7 +126,7 @@ public class BlackJackManager{
 	}
 
 	public void setDCSum(int dCSum) {
-		DCSum = dCSum;
+		this.DCSum += dCSum;
 	}
 
 	public int getUCSum() {
@@ -126,7 +134,38 @@ public class BlackJackManager{
 	}
 
 	public void setUCSum(int uCSum) {
-		UCSum = uCSum;
+		ArrayList<Integer> UCC = new ArrayList<>();
+    	for(int i=getCount(); i<UC.size(); i++) {
+    		setCount(i);
+    		UCC.add(getUCValue(UC.get(i)));
+    	}
+    	
+    	for(int i=getAcnt(); i<UCC.size(); i++) {
+    		if(getUCSum()+uCSum>21&&UCC.get(i)==11) {
+    			setAcnt(i);
+    			this.UCSum += uCSum-10;
+    		}else {
+    			this.UCSum += uCSum;
+    			break;
+    		}
+    	}
+//		    int aceCount = 0; // A 카드의 개수를 세는 변수
+//		    
+//		    // 현재까지의 UC 합계 계산
+//		    for (int i = getCount(); i < UC.size(); i++) {
+//		        setCount(i);
+//		        int cardValue = getUCValue(UC.get(i));
+//		        if (cardValue == 11) { // A 카드인 경우
+//		            aceCount++;
+//		        }
+//		    }
+//		    this.UCSum += uCSum;
+//
+//		    // A 카드가 있고, UCSum이 21을 넘어가면 A를 1로 처리
+//		    while (aceCount > 0 && this.UCSum > 21) {
+//		        this.UCSum -= 10;
+//		        aceCount--;
+//		    }
 	}
 
 	public int getUserBet() {
@@ -137,5 +176,29 @@ public class BlackJackManager{
 		this.userBet = userBet;
 	}
 
+	public int getCnt() {
+		return cnt;
+	}
+
+	public void setCnt(int cnt) {
+		this.cnt = cnt;
+	}
+
+	public int getAcnt() {
+		return Acnt;
+	}
+
+	public void setAcnt(int acnt) {
+		Acnt = acnt;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+	
 	
 }
