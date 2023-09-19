@@ -24,7 +24,7 @@ public class CasinoMain {
 					do {
 						m.mainImage();
 						System.out.println("╔═══════════════════════════════════════════════╗");
-						System.out.println("     1.로그인 | 2.회원가입 | 3.관리자페이지 | 4.종료 ");
+						System.out.println("           1.로그인 | 2.회원가입 | 3.종료 ");
 					    System.out.println("╚═══════════════════════════════════════════════╝");
 						System.out.println("메뉴를 선택하세요:");
 						
@@ -39,8 +39,7 @@ public class CasinoMain {
 								m.selectGame(scan, id, userbalance, u);
 							break;
 						case 2: u.userAdd(scan); break;
-						case 3: m.admin(scan, u); break;
-						case 4: break;
+						case 3: break;
 						default:
 							System.out.println("잘못된 입력입니다.");
 						}				

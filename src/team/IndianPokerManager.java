@@ -19,7 +19,7 @@ public class IndianPokerManager implements IIndianPoker{
 		user = new IndianPoker(id, userBalance);
 		iPK.shuffle();
 		while(menu != 1 || menu != 2) {
-			System.out.println("1.게임 시작 | 2.게임 설명 | 3.게임 종료");
+			UserManager.printInBox("1.게임 시작 | 2.게임 설명 | 3.게임 종료");
 			if (scan.hasNextInt()) {
 				menu = scan.nextInt();
 				if(menu == 1) {
@@ -34,8 +34,8 @@ public class IndianPokerManager implements IIndianPoker{
 						}
 						index++;
 						if(i != 9) {
-							u.printInBox("===================게임 종료===================");
-							u.printInBox("게임을 계속하려면 아무키 입력");
+							UserManager.printInBox("===================게임 종료===================");
+							UserManager.printInBox("게임을 계속하려면 아무키 입력");
 							System.out.printf(" >>  ");
 							scan.nextLine();
 							String next = scan.nextLine();
@@ -44,13 +44,10 @@ public class IndianPokerManager implements IIndianPoker{
 							}
 						}
 					}
-					u.printInBox("10번의 게임이 종료되었습니다.");
-					u.printInBox("잠시후 게임 선택 화면으로 돌아갑니다.");
-					for(int i = 0; i < 3; i++) {
-						System.out.print(".");
-						Thread.sleep(500);
-					}
+					UserManager.printInBox("10번의 게임이 종료되었습니다.");
+					UserManager.printInBox("잠시후 게임 선택 화면으로 돌아갑니다.");
 					break;
+					
 				}else if(menu == 2) {
 					System.out.println("================게임 설명================");
 					System.out.println("인디언 포커는 10번의 게임으로 진행됩니다.");
@@ -109,8 +106,8 @@ public class IndianPokerManager implements IIndianPoker{
 		priceSum += user.paySetting();
 		System.out.println("=======================================");
 		
-		u.printInBox("사용자 칩 1개 베팅");
-		u.printInBox("컴퓨터 칩 1개 베팅");
+		UserManager.printInBox("사용자 칩 1개 베팅");
+		UserManager.printInBox("컴퓨터 칩 1개 베팅");
 		System.out.println("사용자 칩: " + user.getMoney());
 		System.out.println("컴퓨터 칩: " + com.getMoney());
 		System.out.println("카드를 받았습니다.");
@@ -121,7 +118,7 @@ public class IndianPokerManager implements IIndianPoker{
 		myChoice1 = choice1(scan);
 		
 		if(myChoice1 == 1) { 
-			u.printInBox("user FOLD");
+			UserManager.printInBox("user FOLD");
 			if(user.handCard.get(0).getIndex() == 9 || user.handCard.get(0).getIndex() == 19) {
 				System.out.println("카드 패가 10이었습니다!!");
 				user.setMoney(10);
@@ -134,13 +131,13 @@ public class IndianPokerManager implements IIndianPoker{
 			System.out.println("사용자 칩: " + user.getMoney());
 			return;
 		}else if(myChoice1 == 2) { //첫번째
-			u.printInBox("user betting 2 Chips");
+			UserManager.printInBox("user betting 2 Chips");
 			user.setMoney(2);
 			priceSum += 2;
 			
 			comChoice = comCal();
 			if(comChoice == 1) {
-				u.printInBox("Computer FOLD");
+				UserManager.printInBox("Ai가 Fold를 선택했습니다!");
 				if(com.handCard.get(0).getIndex() == 9 || com.handCard.get(0).getIndex() == 19) {
 					System.out.println("카드 패가 10이었습니다!!");
 					com.setMoney(10);
@@ -153,19 +150,19 @@ public class IndianPokerManager implements IIndianPoker{
 				System.out.println("사용자 칩: " + user.getMoney());
 				return;
 			}else if(comChoice == 2) {
-				u.printInBox("computer check");
+				UserManager.printInBox("Ai가 체크를 선택했습니다!");
 				priceSum += comChoice;
 				checkWin();
 				System.out.println("사용자 칩: " + user.getMoney());
 				return;
 			}else if(comChoice == 4) {
-				u.printInBox("computer betting 4 Chips");
+				UserManager.printInBox("AI betting 4 Chips");
 				priceSum += comChoice;
 				
 				myChoice2 = choice2(scan);
 				
 				if(myChoice2 == 1) {
-					u.printInBox("user FOLD");
+					UserManager.printInBox("Fold 하셨습니다!");
 					if(user.handCard.get(0).getIndex() == 9 || user.handCard.get(0).getIndex() == 19) {
 						System.out.println("카드 패가 10이었습니다!!");
 						user.setMoney(10);
@@ -178,57 +175,57 @@ public class IndianPokerManager implements IIndianPoker{
 					System.out.println("사용자 칩: " + user.getMoney());
 					return;
 				}else if(myChoice2 == 2) { //두번째
-					u.printInBox("user betting 4 Chips");
+					UserManager.printInBox("user betting 4 Chips");
 					user.setMoney(4);
 					priceSum += 4;
 					
 					comChoice = comCal();
 					if(comChoice == 1) {
-						u.printInBox("Computer FOLD");
+						UserManager.printInBox("AI FOLD가 폴드를 선택했습니다!");
 						if(com.handCard.get(0).getIndex() == 9 || com.handCard.get(0).getIndex() == 19) {
 							System.out.println("카드 패가 10이었습니다!!");
 							com.setMoney(10);
 							priceSum += 10;
 						}
-						System.out.println("user Win");
+						UserManager.printInBox("user Win");
 						System.out.println("나의 카드");
 						d.printCards(user.handCard);
 						user.plusMoney(priceSum);
 						System.out.println("사용자 칩: " + user.getMoney());
 						return;
 					}else if(comChoice == 2) {
-						u.printInBox("computer check");
+						UserManager.printInBox("Ai check를 선택했습니다!");
 						priceSum += comChoice;
 						checkWin();
 						System.out.println("사용자 칩: " + user.getMoney());
 						return;
 					}else if(comChoice == 4) { 
-						u.printInBox("computer betting 4 Chips");
+						UserManager.printInBox("computer betting 4 Chips");
 						priceSum += comChoice;
 						
 						myChoice2 = choice2(scan);
 						
 						if(myChoice2 == 1) {
-							u.printInBox("user FOLD");
+							UserManager.printInBox("FOLD를 선택하셨습니다!");
 							if(user.handCard.get(0).getIndex() == 9 || user.handCard.get(0).getIndex() == 19) {
 								System.out.println("카드 패가 10이었습니다!!");
 								user.setMoney(10);
 								priceSum += 10;
 							}
-							System.out.println("상대방의 승");
+							UserManager.printInBox("Ai의 승리");
 							System.out.println("나의 카드");
 							d.printCards(user.handCard);
 							com.plusMoney(priceSum);
 							System.out.println("사용자 칩: " + user.getMoney());
 							return;
 						}else if(myChoice2 == 2) { //세번째
-							u.printInBox("user betting 4 Chips");
+							UserManager.printInBox("user betting 4 Chips");
 							user.setMoney(4);
 							priceSum += 4;
 							
 							comChoice = comCal();
 							if(comChoice == 1) {
-								u.printInBox("Computer FOLD");
+								UserManager.printInBox("AI가 FOLD를 선택했습니다!");
 								if(com.handCard.get(0).getIndex() == 9 || com.handCard.get(0).getIndex() == 19) {
 									System.out.println("카드 패가 10이었습니다!!");
 									com.setMoney(10);
@@ -241,13 +238,13 @@ public class IndianPokerManager implements IIndianPoker{
 								System.out.println("사용자 칩: " + user.getMoney());
 								return;
 							}else if(comChoice == 2) {
-								u.printInBox("computer check");
+								UserManager.printInBox("AI가 check를 선택했습니다.");
 								priceSum += comChoice;
 								checkWin();
 								System.out.println("사용자 칩: " + user.getMoney());
 								return;
 							}else if(comChoice == 4) {
-								u.printInBox("computer check");
+								UserManager.printInBox("computer check");
 								priceSum -= 2;
 								com.plusMoney(2);
 								checkWin();
@@ -257,7 +254,7 @@ public class IndianPokerManager implements IIndianPoker{
 						
 						
 					}else if(myChoice2 == 3) {
-						u.printInBox("user check 2 Chips");
+						UserManager.printInBox("user check 2 Chips");
 						user.setMoney(2);
 						priceSum += 2;
 						checkWin();
@@ -267,7 +264,7 @@ public class IndianPokerManager implements IIndianPoker{
 				
 				}
 			}else if(myChoice2 == 3) {
-				u.printInBox("user check 2 Chips");
+				UserManager.printInBox("user check 2 Chips");
 				user.setMoney(2);
 				priceSum += 2;
 				checkWin();
@@ -291,7 +288,7 @@ public class IndianPokerManager implements IIndianPoker{
 					d.printCards(user.handCard);
 					user.plusMoney(priceSum);
 				}else if(userNum < comNum) {
-					System.out.println("computer Win!!");
+					System.out.println("AI Win!!");
 					System.out.println("나의 카드");
 					d.printCards(user.handCard);
 					com.plusMoney(priceSum);
@@ -310,7 +307,7 @@ public class IndianPokerManager implements IIndianPoker{
 					d.printCards(user.handCard);
 					user.plusMoney(priceSum);
 				}else if(userNum < comNum) {
-					System.out.println("computer Win!!");
+					System.out.println("AI Win!!");
 					System.out.println("나의 카드");
 					d.printCards(user.handCard);
 					com.plusMoney(priceSum);
@@ -331,7 +328,7 @@ public class IndianPokerManager implements IIndianPoker{
 					d.printCards(user.handCard);
 					user.plusMoney(priceSum);
 				}else if(userNum < comNum) {
-					System.out.println("computer Win!!");
+					System.out.println("AI Win!!");
 					System.out.println("나의 카드");
 					d.printCards(user.handCard);
 					com.plusMoney(priceSum);

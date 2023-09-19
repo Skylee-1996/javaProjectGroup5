@@ -14,12 +14,13 @@ public class BlackJack implements IBlackJack{
     	boolean end = true;
     	
     	setUserID(id);
-        System.out.println("어서오세요. " + getUserID() + "님");
+    	UserManager.printInBox("어서오세요. " + id + "님"+"현재 보유 칩은 " + userBalance + "입니다.");
+       
         setUserBalance(userBalance);
         
         while(end) {
         BJM = new BlackJackManager();	//게임 초기화
-        System.out.println("현재 보유 칩은 " + getUserBalance() + "입니다.");
+       
         
         userBet(scan);	// 유저 베팅칩 설정
         
@@ -113,7 +114,7 @@ public class BlackJack implements IBlackJack{
 
         BJM.card.printCards(BJM.UC);
 
-        System.out.println("유저의 점수 : " + BJM.getUCSum() + " 현재 베팅칩  : " + BJM.getUserBet());
+        UserManager.printInBox("유저의 점수 : " + BJM.getUCSum() + " 현재 베팅칩  : " + BJM.getUserBet());
         System.out.println("--------------------");
     }
 
@@ -126,7 +127,7 @@ public class BlackJack implements IBlackJack{
 
         BJM.card.printCards(BJM.DC);
 
-        System.out.println("딜러의 점수 : " + BJM.getDCSum());
+        UserManager.printInBox("딜러의 점수 : " + BJM.getDCSum());
         printUserCard();
 
         switch (result) {
