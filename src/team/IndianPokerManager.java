@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 public class IndianPokerManager implements IIndianPoker{
 	Scanner scan;
+	UserManager u = new UserManager();
 	IndianPokerDeck iPK = new IndianPokerDeck();
 	IndianPoker com = new IndianPoker();
 	IndianPoker user;
@@ -32,15 +33,24 @@ public class IndianPokerManager implements IIndianPoker{
 							break;
 						}
 						index++;
-						
-						System.out.println("================게임 종료================");
-						System.out.println("게임을 계속하려면 아무키 입력: ");
-						scan.nextLine();
-						String next = scan.nextLine();
-						if(next != null) {
-							continue;
+						if(i != 9) {
+							u.printInBox("===================게임 종료===================");
+							u.printInBox("게임을 계속하려면 아무키 입력");
+							System.out.printf(" >>  ");
+							scan.nextLine();
+							String next = scan.nextLine();
+							if(next != null) {
+								continue;
+							}
 						}
 					}
+					u.printInBox("10번의 게임이 종료되었습니다.");
+					u.printInBox("잠시후 게임 선택 화면으로 돌아갑니다.");
+					for(int i = 0; i < 3; i++) {
+						System.out.print(".");
+						Thread.sleep(500);
+					}
+					break;
 				}else if(menu == 2) {
 					System.out.println("================게임 설명================");
 					System.out.println("인디언 포커는 10번의 게임으로 진행됩니다.");
@@ -99,8 +109,8 @@ public class IndianPokerManager implements IIndianPoker{
 		priceSum += user.paySetting();
 		System.out.println("=======================================");
 		
-		System.out.println("사용자 칩 1개 베팅");
-		System.out.println("컴퓨터 칩 1개 베팅");
+		u.printInBox("사용자 칩 1개 베팅");
+		u.printInBox("컴퓨터 칩 1개 베팅");
 		System.out.println("사용자 칩: " + user.getMoney());
 		System.out.println("컴퓨터 칩: " + com.getMoney());
 		System.out.println("카드를 받았습니다.");
@@ -111,9 +121,11 @@ public class IndianPokerManager implements IIndianPoker{
 		myChoice1 = choice1(scan);
 		
 		if(myChoice1 == 1) { 
+			u.printInBox("user FOLD");
 			if(user.handCard.get(0).getIndex() == 9 || user.handCard.get(0).getIndex() == 19) {
 				System.out.println("카드 패가 10이었습니다!!");
 				user.setMoney(10);
+				priceSum += 10;
 			}
 			System.out.println("상대방의 승");
 			System.out.println("나의 카드");
@@ -122,16 +134,17 @@ public class IndianPokerManager implements IIndianPoker{
 			System.out.println("사용자 칩: " + user.getMoney());
 			return;
 		}else if(myChoice1 == 2) { //첫번째
-			System.out.println("user betting 2 Chips");
+			u.printInBox("user betting 2 Chips");
 			user.setMoney(2);
 			priceSum += 2;
 			
 			comChoice = comCal();
 			if(comChoice == 1) {
-				System.out.println("Computer FOLD");
+				u.printInBox("Computer FOLD");
 				if(com.handCard.get(0).getIndex() == 9 || com.handCard.get(0).getIndex() == 19) {
 					System.out.println("카드 패가 10이었습니다!!");
 					com.setMoney(10);
+					priceSum += 10;
 				}
 				System.out.println("user Win");
 				System.out.println("나의 카드");
@@ -140,22 +153,23 @@ public class IndianPokerManager implements IIndianPoker{
 				System.out.println("사용자 칩: " + user.getMoney());
 				return;
 			}else if(comChoice == 2) {
-				System.out.println("computer check");
+				u.printInBox("computer check");
 				priceSum += comChoice;
 				checkWin();
-				System.out.println("나의 카드");
 				System.out.println("사용자 칩: " + user.getMoney());
 				return;
 			}else if(comChoice == 4) {
-				System.out.println("computer betting 4 Chips");
+				u.printInBox("computer betting 4 Chips");
 				priceSum += comChoice;
 				
 				myChoice2 = choice2(scan);
 				
 				if(myChoice2 == 1) {
+					u.printInBox("user FOLD");
 					if(user.handCard.get(0).getIndex() == 9 || user.handCard.get(0).getIndex() == 19) {
 						System.out.println("카드 패가 10이었습니다!!");
 						user.setMoney(10);
+						priceSum += 10;
 					}
 					System.out.println("상대방의 승");
 					System.out.println("나의 카드");
@@ -164,40 +178,42 @@ public class IndianPokerManager implements IIndianPoker{
 					System.out.println("사용자 칩: " + user.getMoney());
 					return;
 				}else if(myChoice2 == 2) { //두번째
-					System.out.println("user betting 4 Chips");
+					u.printInBox("user betting 4 Chips");
 					user.setMoney(4);
 					priceSum += 4;
 					
 					comChoice = comCal();
 					if(comChoice == 1) {
-						System.out.println("Computer FOLD");
+						u.printInBox("Computer FOLD");
 						if(com.handCard.get(0).getIndex() == 9 || com.handCard.get(0).getIndex() == 19) {
 							System.out.println("카드 패가 10이었습니다!!");
 							com.setMoney(10);
+							priceSum += 10;
 						}
 						System.out.println("user Win");
-						d.printCards(user.handCard);
 						System.out.println("나의 카드");
+						d.printCards(user.handCard);
 						user.plusMoney(priceSum);
 						System.out.println("사용자 칩: " + user.getMoney());
 						return;
 					}else if(comChoice == 2) {
-						System.out.println("computer check");
+						u.printInBox("computer check");
 						priceSum += comChoice;
 						checkWin();
-						System.out.println("나의 카드");
 						System.out.println("사용자 칩: " + user.getMoney());
 						return;
 					}else if(comChoice == 4) { 
-						System.out.println("computer betting 4 Chips");
+						u.printInBox("computer betting 4 Chips");
 						priceSum += comChoice;
 						
 						myChoice2 = choice2(scan);
 						
 						if(myChoice2 == 1) {
+							u.printInBox("user FOLD");
 							if(user.handCard.get(0).getIndex() == 9 || user.handCard.get(0).getIndex() == 19) {
 								System.out.println("카드 패가 10이었습니다!!");
 								user.setMoney(10);
+								priceSum += 10;
 							}
 							System.out.println("상대방의 승");
 							System.out.println("나의 카드");
@@ -206,16 +222,17 @@ public class IndianPokerManager implements IIndianPoker{
 							System.out.println("사용자 칩: " + user.getMoney());
 							return;
 						}else if(myChoice2 == 2) { //세번째
-							System.out.println("user betting 4 Chips");
+							u.printInBox("user betting 4 Chips");
 							user.setMoney(4);
 							priceSum += 4;
 							
 							comChoice = comCal();
 							if(comChoice == 1) {
-								System.out.println("Computer FOLD");
+								u.printInBox("Computer FOLD");
 								if(com.handCard.get(0).getIndex() == 9 || com.handCard.get(0).getIndex() == 19) {
 									System.out.println("카드 패가 10이었습니다!!");
 									com.setMoney(10);
+									priceSum += 10;
 								}
 								System.out.println("user Win");
 								System.out.println("나의 카드");
@@ -224,40 +241,36 @@ public class IndianPokerManager implements IIndianPoker{
 								System.out.println("사용자 칩: " + user.getMoney());
 								return;
 							}else if(comChoice == 2) {
-								System.out.println("computer check");
+								u.printInBox("computer check");
 								priceSum += comChoice;
 								checkWin();
-								System.out.println("나의 카드");
 								System.out.println("사용자 칩: " + user.getMoney());
 								return;
 							}else if(comChoice == 4) {
-								System.out.println("computer check");
+								u.printInBox("computer check");
 								priceSum -= 2;
 								com.plusMoney(2);
 								checkWin();
-								System.out.println("나의 카드");
 								System.out.println("사용자 칩: " + user.getMoney());
 								return;
 							}
 						
 						
 					}else if(myChoice2 == 3) {
-						System.out.println("user check 2 Chips");
+						u.printInBox("user check 2 Chips");
 						user.setMoney(2);
 						priceSum += 2;
 						checkWin();
-						System.out.println("나의 카드");
 						System.out.println("사용자 칩: " + user.getMoney());
 						return;
 					}
 				
 				}
 			}else if(myChoice2 == 3) {
-				System.out.println("user check 2 Chips");
+				u.printInBox("user check 2 Chips");
 				user.setMoney(2);
 				priceSum += 2;
 				checkWin();
-				System.out.println("나의 카드");
 				System.out.println("사용자 칩: " + user.getMoney());
 				return;
 			}
@@ -274,14 +287,17 @@ public class IndianPokerManager implements IIndianPoker{
 			if(comNum >= 1 && comNum <= 10) {
 				if(userNum > comNum) {
 					System.out.println("user Win!!");
+					System.out.println("나의 카드");
 					d.printCards(user.handCard);
 					user.plusMoney(priceSum);
 				}else if(userNum < comNum) {
 					System.out.println("computer Win!!");
+					System.out.println("나의 카드");
 					d.printCards(user.handCard);
 					com.plusMoney(priceSum);
 				}else if(userNum == comNum) {
 					System.out.println("Draw!!");
+					System.out.println("나의 카드");
 					d.printCards(user.handCard);
 					user.plusMoney(priceSum / 2);
 					com.plusMoney(priceSum / 2);
@@ -290,14 +306,17 @@ public class IndianPokerManager implements IIndianPoker{
 				userNum += 10;
 				if(userNum > comNum) {
 					System.out.println("user Win!!");
+					System.out.println("나의 카드");
 					d.printCards(user.handCard);
 					user.plusMoney(priceSum);
 				}else if(userNum < comNum) {
 					System.out.println("computer Win!!");
+					System.out.println("나의 카드");
 					d.printCards(user.handCard);
 					com.plusMoney(priceSum);
 				}else if(userNum == comNum) {
 					System.out.println("Draw!!");
+					System.out.println("나의 카드");
 					d.printCards(user.handCard);
 					user.plusMoney(priceSum / 2);
 					com.plusMoney(priceSum / 2);
@@ -308,14 +327,17 @@ public class IndianPokerManager implements IIndianPoker{
 				comNum += 10;
 				if(userNum > comNum) {
 					System.out.println("user Win!!");
+					System.out.println("나의 카드");
 					d.printCards(user.handCard);
 					user.plusMoney(priceSum);
 				}else if(userNum < comNum) {
 					System.out.println("computer Win!!");
+					System.out.println("나의 카드");
 					d.printCards(user.handCard);
 					com.plusMoney(priceSum);
 				}else if(userNum == comNum) {
 					System.out.println("Draw!!");
+					System.out.println("나의 카드");
 					d.printCards(user.handCard);
 					user.plusMoney(priceSum / 2);
 					com.plusMoney(priceSum / 2);
@@ -323,14 +345,17 @@ public class IndianPokerManager implements IIndianPoker{
 			}else if(comNum >= 10 && comNum <= 20) {
 				if(userNum > comNum) {
 					System.out.println("user Win!!");
+					System.out.println("나의 카드");
 					d.printCards(user.handCard);
 					user.plusMoney(priceSum);
 				}else if(userNum < comNum) {
 					System.out.println("computer Win!!");
+					System.out.println("나의 카드");
 					d.printCards(user.handCard);
 					com.plusMoney(priceSum);
 				}else if(userNum == comNum) {
 					System.out.println("Draw!!");
+					System.out.println("나의 카드");
 					d.printCards(user.handCard);
 					user.plusMoney(priceSum / 2);
 					com.plusMoney(priceSum / 2);
@@ -411,9 +436,8 @@ public class IndianPokerManager implements IIndianPoker{
 	public int choice1(Scanner scan) {
 	    int choice = 0;
 	    while (true) {
-	        System.out.println("=======================================");
-	        System.out.println("insert number: ");
-	        System.out.printf("1. fold | 2. bet(2 Chips)   >> ");
+	        u.printInBox("1. fold | 2. bet(2 Chips)");
+	        System.out.println("insert number >>  ");
 	        if (scan.hasNextInt()) {
 	            choice = scan.nextInt();
 	            switch (choice) {
@@ -431,16 +455,14 @@ public class IndianPokerManager implements IIndianPoker{
 	            scan.next(); // 입력 버퍼 비우기
 	        }
 	        
-	        System.out.println("=======================================");
 	    }
 	}
 	
 	public int choice2(Scanner scan) {
 		int choice = 0;
 		while(true) {
-			System.out.println("=======================================");
-			System.out.println("insert number: ");
-			System.out.printf("1.fold | 2.bet(4 Chips) | 3.check(2 Chips)  >> ");
+			u.printInBox("1.fold | 2.bet(4 Chips) | 3.check(2 Chips)");
+			System.out.println("insert number >>  ");
 			if (scan.hasNextInt()) {
 				choice = scan.nextInt();
 				switch(choice) {
@@ -460,7 +482,6 @@ public class IndianPokerManager implements IIndianPoker{
 	            System.out.println("알맞은 숫자를 입력하세요!!");
 	            scan.next(); // 입력 버퍼 비우기
 	        }
-			System.out.println("=======================================");
 		}
 	}
 	
@@ -468,14 +489,12 @@ public class IndianPokerManager implements IIndianPoker{
 		int random1 = 0;
 		Thread loginThread = new Thread(() -> {
             try {
-            	System.out.println("=======================================");
-                System.out.print("컴퓨터가 선택중입니다.");
+            	u.printInBox("컴퓨터가 선택중입니다.");
                 for (int j = 0; j < 3; j++) {
                     Thread.sleep(500);
                     System.out.print(".");
                 }
                 System.out.println();
-                System.out.println("=======================================");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -518,72 +537,72 @@ public class IndianPokerManager implements IIndianPoker{
 		}else if((user.handCard.get(0).getIndex() == 3) || (user.handCard.get(0).getIndex() == 13)) { //숫자4
 			random1 = (int)(Math.random() * 100) + 1;
 			
-			if(random1 <= 40) {
+			if(random1 <= 35) {
 				return 1; //die
-			}else if(random1 > 40 && random1 <= 70) {
+			}else if(random1 > 35 && random1 <= 65) {
 				com.setMoney(2);
 				return 2;
-			}else if(random1 > 70) {
+			}else if(random1 > 65) {
 				com.setMoney(4);
 				return 4;
 			}
 		}else if((user.handCard.get(0).getIndex() == 4) || (user.handCard.get(0).getIndex() == 14)) { //숫자5
 			random1 = (int)(Math.random() * 100) + 1;
 			
-			if(random1 <= 50) {
+			if(random1 <= 35) {
 				return 1; //die
-			}else if(random1 > 50 && random1 <= 75) {
+			}else if(random1 > 35 && random1 <= 65) {
 				com.setMoney(2);
 				return 2;
-			}else if(random1 > 75) {
+			}else if(random1 > 65) {
 				com.setMoney(4);
 				return 4;
 			}
 		}else if((user.handCard.get(0).getIndex() == 5) || (user.handCard.get(0).getIndex() == 15)) { //숫자6
 			random1 = (int)(Math.random() * 100) + 1;
 			
-			if(random1 <= 60) {
+			if(random1 <= 35) {
 				return 1; //die
-			}else if(random1 > 60 && random1 <= 80) {
+			}else if(random1 > 35 && random1 <= 65) {
 				com.setMoney(2);
 				return 2;
-			}else if(random1 > 80) {
+			}else if(random1 > 65) {
 				com.setMoney(4);
 				return 4;
 			}
 		}else if((user.handCard.get(0).getIndex() == 6) || (user.handCard.get(0).getIndex() == 16)) { //숫자7
 			random1 = (int)(Math.random() * 100) + 1;
 			
-			if(random1 <= 70) {
+			if(random1 <= 35) {
 				return 1; //die
-			}else if(random1 > 70 && random1 <= 85) {
+			}else if(random1 > 35 && random1 <= 65) {
 				com.setMoney(2);
 				return 2;
-			}else if(random1 > 85) {
+			}else if(random1 > 65) {
 				com.setMoney(4);
 				return 4;
 			}
 		}else if((user.handCard.get(0).getIndex() == 7) || (user.handCard.get(0).getIndex() == 17)) { //숫자8
 			random1 = (int)(Math.random() * 100) + 1;
 			
-			if(random1 <= 80) {
+			if(random1 <= 35) {
 				return 1; //die
-			}else if(random1 > 80 && random1 <= 90) {
+			}else if(random1 > 35 && random1 <= 65) {
 				com.setMoney(2);
 				return 2;
-			}else if(random1 > 90) {
+			}else if(random1 > 65) {
 				com.setMoney(4);
 				return 4;
 			}
 		}else if((user.handCard.get(0).getIndex() == 8) || (user.handCard.get(0).getIndex() == 18)) { //숫자 9
 			random1 = (int)(Math.random() * 100) + 1;
 			
-			if(random1 <= 90) {
+			if(random1 <= 35) {
 				return 1; //die
-			}else if(random1 > 90 && random1 <= 95) {
+			}else if(random1 > 35 && random1 <= 65) {
 				com.setMoney(2);
 				return 2;
-			}else if(random1 > 95) {
+			}else if(random1 > 65) {
 				com.setMoney(4);
 				return 4;
 			}
