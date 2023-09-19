@@ -16,7 +16,7 @@ public class User {
       this.id = id;
       this.password = password;
       this.name = name;
-      this.balance = 10000000;      
+      this.balance = 100;      
     }
     public User(String id, String password, String name, int balance) {
         this.id = id;
@@ -54,7 +54,7 @@ public class User {
       }
 
       public int setBalance(int balance) {
-         return this.balance += balance;
+         return this.balance = balance;
       }
 
       public int getRank() {

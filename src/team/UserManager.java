@@ -43,7 +43,6 @@ public class UserManager {
 		    userList.add(new User(id, password, name));
 		    System.out.println("입력하신 정보로 등록되었습니다.");
 		    userUpdate();
-		    System.out.print("메뉴를 선택해주세요.> ");
 	  }
 
 	  //아이디 중복검사
@@ -172,13 +171,8 @@ public class UserManager {
     public void setUserBalance(String id, int newBalance) {
         for (User user : userList) {
             if (user.getId().equals(id)) {
-                if(newBalance >= 0) {
                     user.setBalance(newBalance);
                     return;
-                } else {
-                    System.out.println("잘못된 금액입니다. 자본금은 음수가 될 수 없습니다.");
-                    return;
-                }
             }
         }
         System.out.println("해당 ID를 가진 사용자를 찾을 수 없습니다.");
@@ -320,11 +314,25 @@ public class UserManager {
             br.close();
         }
 
-      public void printInBox(String s) {
+      public static void printInBox(String s) {
     	   System.out.println("┌───────────────────────────────────────────────┐");
 	       System.out.println("│ "+s+" ");
 	       System.out.println("└───────────────────────────────────────────────┘");
       }
       
+      public boolean endGame(Scanner scan, String id, int userBalance, UserManager u) throws InterruptedException, IOException {
+	    	CasinoManager m = new CasinoManager();
+	    	  System.out.println("1.다음게임시작 2.게임선택 3.종료");
+	          int select = scan.nextInt();
+
+	          switch(select) {
+	           case 1: break;
+	           case 2: m.selectGame(scan, id, userBalance, u); break;
+	           case 3: 
+	        	   	return false;
+	          
+	          }
+	          return true;
+	    }
 
 }
