@@ -43,7 +43,6 @@ public class UserManager {
 		    userList.add(new User(id, password, name));
 		    System.out.println("입력하신 정보로 등록되었습니다.");
 		    userUpdate();
-		    System.out.print("메뉴를 선택해주세요.> ");
 	  }
 
 	  //아이디 중복검사
@@ -172,13 +171,8 @@ public class UserManager {
     public void setUserBalance(String id, int newBalance) {
         for (User user : userList) {
             if (user.getId().equals(id)) {
-                if(newBalance >= 0) {
                     user.setBalance(newBalance);
                     return;
-                } else {
-                    System.out.println("잘못된 금액입니다. 자본금은 음수가 될 수 없습니다.");
-                    return;
-                }
             }
         }
         System.out.println("해당 ID를 가진 사용자를 찾을 수 없습니다.");

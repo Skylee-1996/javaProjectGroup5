@@ -5,54 +5,61 @@ import java.util.Scanner;
 
 public class CasinoManager {
 
-    public User login(Scanner scan, UserManager m) {
-        System.out.print("회원ID: ");
-        String id = scan.next();
-        System.out.print("비밀번호: ");
-        String pass = scan.next();
+	public User login(Scanner scan, UserManager m) throws IOException {
+	    while (true) {
+	        System.out.print("회원ID: ");
+	        String id = scan.next();
+	        System.out.print("비밀번호: ");
+	        String pass = scan.next();
 
-        boolean foundUser = false;
+	        boolean foundUser = false;
 
-        for (int i = 0; i < m.userList.size(); i++) {
-            if (m.userList.get(i).getId().equals(id) && m.userList.get(i).getPassword().equals(pass)) {
+	        for (int i = 0; i < m.userList.size(); i++) {
+	            if (m.userList.get(i).getId().equals(id) && m.userList.get(i).getPassword().equals(pass)) {
 
-            	m.printInBox("회원명: " + m.userList.get(i).getName() + " 자본금: " + m.userList.get(i).getBalance()+"원");
+	                m.printInBox("회원명: " + m.userList.get(i).getName() + " 자본금: " + m.userList.get(i).getBalance() + "원");
 
+	                foundUser = true;
 
-                foundUser = true;
-                Thread loginThread = new Thread(() -> {
-                    try {
-                        System.out.print("로그인 중");
-                        for (int j = 0; j < 3; j++) {
-                            Thread.sleep(500);
-                            System.out.print(".");
-                        }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                });
-                loginThread.start();
+	                Thread loginThread = new Thread(() -> {
+	                    try {
+	                        System.out.print("로그인 중");
+	                        for (int j = 0; j < 3; j++) {
+	                            Thread.sleep(500);
+	                            System.out.print(".");
+	                        }
+	                    } catch (InterruptedException e) {
+	                        e.printStackTrace();
+	                    }
+	                });
+	                loginThread.start();
 
-                try {
-                    loginThread.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.out.println();
+	                try {
+	                    loginThread.join();
+	                } catch (InterruptedException e) {
+	                    e.printStackTrace();
+	                }
+	                System.out.println();
 
-                m.printInBox("로그인 성공");
+	                m.printInBox("로그인 성공");
 
-                return m.userList.get(i);
-            }
-        }
+	                return m.userList.get(i);
+	            }
+	        }
 
-        if (!foundUser) {
-
-            m.printInBox("존재하지않는 유저입니다");
-
-        }
-        return null;
-    }
+	        if (!foundUser) {
+	            m.printInBox("존재하지 않는 유저입니다.");
+	            m.printInBox("1.회원가입 | 2. 재입력");
+	            int menu = scan.nextInt();
+	            switch (menu) {
+				case 1: m.userAdd(scan); break;
+				case 2:break;
+				default: m.printInBox("잘못된 입력입니다.");
+					
+				}
+	        }
+	    }
+	}
 
     public void admin(Scanner scan, UserManager u) throws IOException {
 
