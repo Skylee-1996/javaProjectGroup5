@@ -5,17 +5,20 @@ import java.util.Scanner;
 
 public class IndianPokerManager implements IIndianPoker{
 	Scanner scan;
+	CasinoManager cM = new CasinoManager();
 	UserManager u = new UserManager();
-	IndianPokerDeck iPK = new IndianPokerDeck();
-	IndianPoker com = new IndianPoker();
+	IndianPokerDeck iPK;
+	IndianPoker com;
 	IndianPoker user;
 	Deck d = new Deck();
 	int priceSum = 0;
-	int index = 1;
 	
 	public void gameStart(Scanner scan, String id, int userBalance, UserManager uM) throws IOException, InterruptedException {
+		iPK = new IndianPokerDeck();
 		this.scan = scan;
 		int menu = 0;
+		int index = 1;
+		com = new IndianPoker();
 		user = new IndianPoker(id, userBalance);
 		iPK.shuffle();
 		while(menu != 1 || menu != 2) {
@@ -25,6 +28,8 @@ public class IndianPokerManager implements IIndianPoker{
 				if(menu == 1) {
 					for(int i = 0; i < 10; i++) {
 						if(user.getMoney() >= 21 && com.getMoney() >= 21) {
+							System.out.println("=======================================");
+							System.out.println("◆◆◆◆◆◆◆◆◆◆◆◆◆◆" + index + "번째 게임◆◆◆◆◆◆◆◆◆◆◆◆◆◆");
 							round();
 							uM.setUserBalance(id, user.getMoney());
 							uM.userUpdate();
@@ -46,7 +51,7 @@ public class IndianPokerManager implements IIndianPoker{
 					}
 					UserManager.printInBox("10번의 게임이 종료되었습니다.");
 					UserManager.printInBox("잠시후 게임 선택 화면으로 돌아갑니다.");
-					break;
+					cM.selectGame(scan, id, user.getMoney(), uM);
 					
 				}else if(menu == 2) {
 					System.out.println("================게임 설명================");
@@ -71,7 +76,7 @@ public class IndianPokerManager implements IIndianPoker{
 					
 				}else if(menu == 3) {
 					System.out.println("게임 선택 메뉴로 돌아갑니다.");
-					break;
+					cM.selectGame(scan, id, user.getMoney(), uM);
 				}
 				else {
 					System.out.println("알맞은 숫자를 입력하세요!!");
@@ -96,8 +101,6 @@ public class IndianPokerManager implements IIndianPoker{
 			user.handCard.remove(i);
 			com.handCard.remove(i);
 		}
-		System.out.println("=======================================");
-		System.out.println("◆◆◆◆◆◆◆◆◆◆◆◆◆◆" + index + "번째 게임◆◆◆◆◆◆◆◆◆◆◆◆◆◆");
 		System.out.println("게임을 시작합니다.");
 		System.out.println("베팅은 3번까지!");
 		user.handCard.add(iPK.drawCard());
