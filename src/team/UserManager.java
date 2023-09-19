@@ -328,7 +328,7 @@ public class UserManager {
 	          switch(select) {
 	           case 1: break;
 	           case 2: m.selectGame(scan, id, userBalance, u); break;
-	           case 3: 
+	           case 3: System.out.println("프로그램을 종료합니다.");
 	        	   	return false;
 	          
 	          }
