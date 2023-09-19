@@ -62,12 +62,9 @@ public class UserManager {
 		    System.out.print("회원ID: ");
 		    String id = scan.next();
 		    
-		    System.out.print("비밀번호: ");
-		    String pass = scan.next();
-		    
 		    boolean userFound = false;
 		    for (int i = 0; i < userList.size(); i++) {
-		        if (userList.get(i).getId().equals(id) && userList.get(i).getPassword().equals(pass)) {
+		        if (userList.get(i).getId().equals(id)) {
 		            userList.remove(i);
 		            System.out.println("삭제가 완료되었습니다.");
 		            userUpdate();
@@ -84,16 +81,14 @@ public class UserManager {
 
     //회원수정
 	  public void editUser(Scanner scan) throws IOException {
-		    System.out.println("기존 회원ID와 비밀번호를 입력해주세요.");
+		    System.out.println("기존 회원ID를 입력해주세요.");
 		    System.out.println("회원ID: ");
 		    String id = scan.next();
-		    System.out.println("비밀번호: ");
-		    String pass = scan.next();
 		    boolean found = false;
 
 		    for (int i = 0; i < userList.size(); i++) {
 		        User currentUser = userList.get(i);
-		        if (currentUser.getId().equals(id) && currentUser.getPassword().equals(pass)) {
+		        if (currentUser.getId().equals(id)) {
 		            found = true;
 		            int choice = -1;
 		            do {
@@ -148,16 +143,15 @@ public class UserManager {
                         
     //회원검색 후 출력
     public void searchUser(Scanner scan) {
-        System.out.println("검색하실 회원ID와 비밀번호를 입력해주세요.");
+        System.out.println("검색하실 회원ID를 입력해주세요.");
         System.out.println("회원ID: ");
         String id = scan.next();
-        System.out.println("비밀번호: ");
-        String pass = scan.next();
         boolean found = false;
 
         for (int i = 0; i < userList.size(); i++) {
-            if (userList.get(i).getId().equals(id) && userList.get(i).getPassword().equals(pass)) {
+            if (userList.get(i).getId().equals(id)) {
                 found = true;
+                System.out.println("☞"+id+"님의 정보입니다.");
                 System.out.println("회원ID: " + userList.get(i).getId() + ", 비밀번호: " + userList.get(i).getPassword());
                 System.out.println("회원명: " + userList.get(i).getName() + ", 자본금: " + userList.get(i).getBalance());
                 break;
@@ -205,13 +199,11 @@ public class UserManager {
     }
       //자본금-입금
     public void depositMoney(Scanner scan) {
-        System.out.println("회원ID와 비밀번호를 입력해주세요.");
+        System.out.println("회원ID를 입력해주세요.");
         System.out.println("회원ID: ");
         String id = scan.next();
-        System.out.println("비밀번호: ");
-        String pass = scan.next();
         for(int i=0; i<userList.size(); i++) {
-            if (userList.get(i).getId().equals(id) && userList.get(i).getPassword().equals(pass)) {
+            if (userList.get(i).getId().equals(id)) {
                 try {
                     System.out.println("입금하실 금액을 입력해주세요.");
                     int amount = scan.nextInt();
@@ -230,17 +222,15 @@ public class UserManager {
       
       //자본금-출금
       public void withdrawMoney(Scanner scan) {
-          System.out.println("회원ID와 비밀번호를 입력해주세요.");
+          System.out.println("회원ID를 입력해주세요.");
           System.out.println("회원ID: ");
           String id = scan.next();
-          System.out.println("비밀번호: ");
-          String password = scan.next();
           for(int i=0;i<userList.size();i++) {             
-          if (userList.get(i).getId().equals(id)&&userList.get(i).getPassword().equals(password)) {
+          if (userList.get(i).getId().equals(id)) {
               System.out.println("출금하실 금액을 입력해주세요.");
               int amount = scan.nextInt();          
               if (userList.get(i).getBalance() >= amount) {
-            	 userList.get(i).setBalance(userList.get(i).getBalance()-amount); 
+            	 userList.get(i).setBalance(-amount); 
                   System.out.println("입력하신 " + amount + "원이 성공적으로 출금처리되었습니다.");
                   System.out.println("잔액: " +userList.get(i).getBalance()+"원");
               } else {
@@ -266,9 +256,12 @@ public class UserManager {
               }
 
               // 순위 출력
-              System.out.println("----자본금 순위----");
+              System.out.println("            ☠𝑹𝒂𝒏𝒌☠");
+              System.out.println();
               for (User user : userList) {
-                  System.out.println("순위: " + user.getRank() + ", 회원ID: " + user.getId() + ", 회원명: " + user.getName() + ", 자본금: " + user.getBalance());
+                  System.out.println(" 순위: " + user.getRank() + " | 회원명: " + user.getName() + " | 자본금: " + user.getBalance());
+                  System.out.println("⩶⩶⩶⩶⩶⩶⩶⩶⩶⩶⩶⩶⩶⩶⩶⩶⩶⩶");
+                  System.out.println();
               }   
        }
           
@@ -313,12 +306,14 @@ public class UserManager {
                 }
             br.close();
         }
+      	
 
-      public static void printInBox(String s) {
-    	   System.out.println("┌───────────────────────────────────────────────┐");
-	       System.out.println("│ "+s+" ");
-	       System.out.println("└───────────────────────────────────────────────┘");
-      }
+      	public static void printInBox(String s) {
+    	   System.out.println("╔═══════════════════════════════════════════════╗");
+	       System.out.println("  "+s+"      ");
+	       System.out.println("╚═══════════════════════════════════════════════╝");
+      	}
+
       
       public boolean endGame(Scanner scan, String id, int userBalance, UserManager u) throws InterruptedException, IOException {
 	    	CasinoManager m = new CasinoManager();

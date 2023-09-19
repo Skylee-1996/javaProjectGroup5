@@ -7,6 +7,7 @@ public class CoinFlipManager implements ICoinFlip{
 	Scanner scan;
 	CoinFlip user;
 	UserManager u = new UserManager();
+	
 	public void gameStart(Scanner scan, String id, int userBalance, UserManager uM) throws IOException, InterruptedException {
 		this.scan = scan;
 		user = new CoinFlip(id, userBalance);
@@ -363,4 +364,6 @@ public class CoinFlipManager implements ICoinFlip{
 				+ "         .:BBBBBBBBBBr.        \r\n"
 				+ "             .    .            ");
 	}
+	
+	
 }

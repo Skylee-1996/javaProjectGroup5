@@ -22,7 +22,10 @@ public class CasinoMain {
 					int userbalance;
 					int menu = 0;	
 					do {
-						u.printInBox("1.로그인 | 2.회원가입 | 3.관리자페이지 | 4.종료 |");
+						m.mainImage();
+						System.out.println("╔═══════════════════════════════════════════════╗");
+						System.out.println("     1.로그인 | 2.회원가입 | 3.관리자페이지 | 4.종료 ");
+					    System.out.println("╚═══════════════════════════════════════════════╝");
 						System.out.println("메뉴를 선택하세요:");
 						
 						menu = scan.nextInt();
@@ -39,7 +42,7 @@ public class CasinoMain {
 						case 3: m.admin(scan, u); break;
 						case 4: break;
 						default:
-							System.out.println("잘못된입력입니다");
+							System.out.println("잘못된 입력입니다.");
 						}				
 					} while(menu != 4);
 					System.out.println("프로그램을 종료합니다.");
