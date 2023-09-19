@@ -25,7 +25,7 @@ public class CoinFlipManager implements ICoinFlip{
 					if(frontBack[1] == checkFrontBack) {
 						System.out.println("맞추셨습니다!!");
 						user.plusMoney(frontBack[0] * 2);
-						u.printInBox("+" + frontBack[0] + "chip(s)");
+						u.printInBox("+" + (frontBack[0] * 2) + "chip(s)");
 						u.printInBox("user chip(s): " + user.getMoney());
 						uM.setUserBalance(id, user.getMoney());
 						uM.userUpdate();
