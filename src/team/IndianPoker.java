@@ -34,7 +34,7 @@ public class IndianPoker {
 	
 	public IndianPoker() {
 		this.id = "computer";
-		this.money = 1000000;
+		this.money = 100;
 	}
 	
 	public IndianPoker(String id, int money) {
@@ -75,8 +75,8 @@ public class IndianPoker {
 	
 	
 	public int paySetting() {
-		this.money -= 10000;
-		return 10000;
+		this.money -= 1;
+		return 1;
 	}
 	
 	public void plusMoney(int money) {

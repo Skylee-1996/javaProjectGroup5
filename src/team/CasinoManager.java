@@ -103,6 +103,7 @@ public class CasinoManager {
         BlackJack blackjack = new BlackJack(); 
 
         IndianPokerManager Indian = new IndianPokerManager();
+        CoinFlipManager CoinFlip = new CoinFlipManager();
         int menu = 0;
         do {
             
@@ -120,14 +121,17 @@ public class CasinoManager {
                     Indian.gameStart(scan, id, userBalance, u);
                     break;
                 case 4:
+                	CoinFlip.gameStart(scan, id, userBalance, u);
+                	break;
+                case 5:
                     u.rankUsersByBalance();
                     break;
-                case 5:
+                case 6:
                     break;
                 default:
                     System.out.println("잘못된 입력입니다.");
             }
-        } while (menu != 5);
+        } while (menu != 6);
         System.out.println("프로그램을 종료합니다.");
     }
 
