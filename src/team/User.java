@@ -54,7 +54,7 @@ public class User {
       }
 
       public int setBalance(int balance) {
-         return this.balance += balance;
+         return this.balance = balance;
       }
 
       public int getRank() {

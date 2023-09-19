@@ -5,14 +5,15 @@ import java.util.Scanner;
 
 public class CasinoManager {
 
+
     public User login(Scanner scan, UserManager m) throws IOException {
-        System.out.print("회원ID: ");
+      while(true) {
+    	System.out.print("회원ID: ");
         String id = scan.next();
         System.out.print("비밀번호: ");
         String pass = scan.next();
 
         boolean foundUser = false;
-//
         for (int i = 0; i < m.userList.size(); i++) {
             if (m.userList.get(i).getId().equals(id) && m.userList.get(i).getPassword().equals(pass)) {
             	//입력한 아이디와 비번이 'admin'으로 일치한다면 관리자페이지로 바로 이동하도록 설정
@@ -35,28 +36,33 @@ public class CasinoManager {
                         e.printStackTrace();
                     }
                 });
-                loginThread.start();
+            
 
-                try {
-                    loginThread.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.out.println();
+
 
                 m.printInBox("☑ 로그인 성공");
 
-                return m.userList.get(i);
-            }
+	                return m.userList.get(i);
+               }
+        	
         }
+	            
 
-        if (!foundUser) {
-
-            m.printInBox("존재하지않는 유저입니다.");
-
-        }
-        return null;
+    if (!foundUser) {
+        m.printInBox("존재하지 않는 유저입니다.");
+        m.printInBox("1.회원가입 | 2. 재입력");
+        int menu = scan.nextInt();
+        switch (menu) {
+		case 1: m.userAdd(scan); break;
+		case 2:break;
+		default: m.printInBox("잘못된 입력입니다.");
+			
+		}
+    	}
+      }
     }
+
+
 
     public void admin(Scanner scan, UserManager u) throws IOException {
 System.out.println("╔═══════════════════════════════════════════════════════════╗");
@@ -95,14 +101,19 @@ System.out.println("╚═══════════════════
 
     public void selectGame(Scanner scan, String id, int userBalance, UserManager u) throws InterruptedException, IOException {
 
-       u.printInBox("1.바카라 | 2.블랙잭 | 3.인디언포커 | 4.랭킹 | 5.종료");
+
+       u.printInBox("1.바카라 |2.블랙잭 |3.인디언포커 |4.코인플립 |5.랭킹|6.종료");
+       System.out.println("게임을 선택해주세요");
         Baccarat baccarat = new Baccarat();
         BlackJack blackjack = new BlackJack(); 
 
         IndianPokerManager Indian = new IndianPokerManager();
+        CoinFlipManager CoinFlip = new CoinFlipManager();
         int menu = 0;
         do {
+
             System.out.println("게임을 선택해주세요.");
+
             menu = scan.nextInt();
             switch (menu) {
                 case 1:
@@ -118,14 +129,17 @@ System.out.println("╚═══════════════════
                     Indian.gameStart(scan, id, userBalance, u);
                     break;
                 case 4:
+                	CoinFlip.gameStart(scan, id, userBalance, u);
+                	break;
+                case 5:
                     u.rankUsersByBalance();
                     break;
-                case 5:
+                case 6:
                     break;
                 default:
                     System.out.println("잘못된 입력입니다.");
             }
-        } while (menu != 5);
+        } while (menu != 6);
         System.out.println("프로그램을 종료합니다.");
     }
 

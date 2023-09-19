@@ -18,6 +18,7 @@ public class Baccarat implements IBaccarat {
     	
     	int bankerScore =0;
     	int playerScore =0;
+    	bm.gameRule();
     	while (end) {
     	deck = bm.initializeGame();
     	List<Card> bankerCards = new ArrayList<>();

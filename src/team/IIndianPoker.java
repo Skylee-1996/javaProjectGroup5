@@ -3,12 +3,12 @@ package team;
 import java.io.IOException;
 import java.util.Scanner;
 
-public interface IndianPokerInterface {
+public interface IIndianPoker {
 	void gameStart(Scanner scan, String id, int userBalance, UserManager uM) throws IOException, InterruptedException;
 	/* 게임을 시작하는 메서드
 	 * 1번 선택시 10번의 게임 [round()] 을 실행
-	 * 게임이 끝나고 사용자의 금액을 확인
-	 * 21만원보다 적으면 게임 종료
+	 * 게임이 끝나고 사용자의 칩을 확인
+	 * 칩의 수가 21보다 적으면 게임 종료
 	 * 
 	 * 2번 선택시 게임 설명 출력
 	 * 아무키 입력시 다시 메뉴로 이동
@@ -62,6 +62,4 @@ public interface IndianPokerInterface {
 	 * 확률적으로 FOLD, BETTING, CHECK 선택
 	 * 
 	 */
-	
-	
 }

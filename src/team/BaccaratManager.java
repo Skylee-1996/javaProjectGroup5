@@ -101,7 +101,23 @@ public class BaccaratManager implements IBaccaratManager {
 	            return false;
 	    }
 	}
-	
+	//게임룰
+	public void gameRule() {
+		System.out.println("\r\n"
+				+ "바카라는 간단한 카지노 카드 게임으로, 플레이어와 뱅커(Banker) 두 가지 사이드 중 어느 한 쪽에 베팅을 합니다. 목표는 선택한 사이드의 카드 합계가 9에 가장 가까워지도록 하는 것입니다. 게임은 다음과 같은 단계로 진행됩니다:\r\n"
+				+ "\r\n"
+				+ "베팅: 플레이어는 '플레이어', '뱅커' 또는 '무승부(Tie)' 중 하나에 베팅을 합니다.\r\n"
+				+ "\r\n"
+				+ "카드 분배: 플레이어와 뱅커 모두에게 두 장의 카드가 분배됩니다. 카드는 뒤집어져 있어, 값이 보이지 않습니다.\r\n"
+				+ "\r\n"
+				+ "카드 값 계산: 카드의 값을 계산하여 합계를 구합니다. 10, J, Q, K는 0점으로 계산되고, 에이스는 1점, 나머지 카드는 표시된 숫자만큼의 점수를 가집니다. 카드 합계가 10을 초과하면 10을 뺀 값을 사용합니다. 예를 들어, 12점이면 2점이 됩니다.\r\n"
+				+ "\r\n"
+				+ "추가 카드: 특정 조건에 따라 플레이어 또는 뱅커가 한 장의 추가 카드를 받을 수 있습니다.\r\n"
+				+ "\r\n"
+				+ "승자 결정: 카드의 합이 9에 가장 가까운 사이드가 승리합니다. 무승부의 경우, 플레이어와 뱅커의 카드 합계가 같아야 합니다.\r\n"
+				+ "\r\n"
+				+ "베팅한 사이드가 이기면 베팅 금액을 돌려받고, 더불어 이긴 사이드에 따라 일정한 비율의 이길 돈을 얻습니다. 무승부에 베팅한 경우에는 높은 배당률을 얻습니다.");
+	}
 	
 	//카드 두개의 스코어값 계산
 	 public int getScore(Card card1, Card card2) {
@@ -158,7 +174,7 @@ public class BaccaratManager implements IBaccaratManager {
 	    }
 	   //게임종료
 	    public boolean endGame(Scanner scan, String id, int userBalance, UserManager u) throws InterruptedException, IOException {
-	    	CasinoManager m = new CasinoManager();
+	    	  CasinoManager m = new CasinoManager();
 	    	  System.out.println("1.다음게임시작 2.게임선택 3.종료");
 	          int select = scan.nextInt();
 
