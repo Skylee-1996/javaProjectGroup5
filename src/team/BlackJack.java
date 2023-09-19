@@ -65,11 +65,18 @@ public class BlackJack implements IBlackJack{
 
     // 게임 메뉴 출력 및 선택지 입력
     public int printMenu(Scanner scan) {
-    	UserManager.printInBox("1.Hit|2.Stand|3.DoubleDown|0.룰설명");
-        System.out.print("선택지를 골라주세요> ");
-        int choice = scan.nextInt();
+        while (true) {
+            try {
+                UserManager.printInBox("1.Hit|2.Stand|3.DoubleDown|0.룰설명");
+                System.out.print("선택지를 골라주세요> ");
+                int choice = scan.nextInt();
 
-        return choice;
+                return choice;
+            } catch (Exception e) {
+                System.out.println("옳바른 값을 입력해주세요.");
+                scan.nextLine(); // 예외 발생 시 입력 스트림을 비워줍니다.
+            }
+        }
     }
 
     // 초기 게임 세팅
@@ -152,14 +159,20 @@ public class BlackJack implements IBlackJack{
     
     // 베팅 금액 설정
     public void userBet(Scanner scan) {
-    	while (true) {
-            System.out.print("칩 베팅 갯수를 설정해주세요> ");
-            BJM.setUserBet(scan.nextInt());
-            if (BJM.getUserBet() > 0 && getUserBalance() > BJM.getUserBet()) {	// 유저는 본인의 보유 칩 이상 그리고 음수의 칩을 걸 수 없음 
-                break;
-            } else {
+        while (true) {
+            try {
+                System.out.print("칩 베팅 갯수를 설정해주세요> ");
+                int userBet = scan.nextInt();
+                if (userBet > 0 && getUserBalance() > userBet) {
+                    BJM.setUserBet(userBet);
+                    break;
+                } else {
+                    System.out.println("잘못된 값입니다.");
+                    continue;
+                }
+            } catch (Exception e) {
                 System.out.println("잘못된 값입니다.");
-                continue;
+                scan.nextLine(); // 예외 발생 시 입력 스트림을 비워줍니다.
             }
         }
     }
