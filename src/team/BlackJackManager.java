@@ -56,7 +56,7 @@ public class BlackJackManager {
     	System.out.println("유저의 카드를 뒤집습니다...");
     	Thread.sleep(2000); // 2초 딜레이
         UC.add(card.drawCard()); // 유저 카드 팩에 카드 추가
-        setUCSum(getUCValue(UC.get(cnt))); // 유저 카드 합계 업데이트
+        setUCSum(getValue(UC.get(cnt))); // 유저 카드 합계 업데이트
         cnt++; // 카운터 증가
     }
 
@@ -67,7 +67,7 @@ public class BlackJackManager {
         while (getDCSum() <= 16) {	//딜러는 유저가 Stand시 16이하면 계속 카드뽑기
         	Thread.sleep(2000); // 2초 딜레이
             DC.add(card.drawCard()); // 딜러 카드 팩에 카드 추가
-            setDCSum(getDCValue(DC.get(i))); // 딜러 카드 합계 업데이트
+            setDCSum(getValue(DC.get(i))); // 딜러 카드 합계 업데이트
             i++; // 카운터 증가
         }
     }
@@ -77,7 +77,7 @@ public class BlackJackManager {
     	System.out.println("카드를 뒤집습니다...");
     	Thread.sleep(2000); // 2초 딜레이
         UC.add(card.drawCard()); // 유저 카드 팩에 카드 추가
-        setUCSum(getUCValue(UC.get(cnt))); // 유저 카드 합계 업데이트
+        setUCSum(getValue(UC.get(cnt))); // 유저 카드 합계 업데이트
         setUserBet(getUserBet() * 2); // 배팅 금액 2배로 업데이트
         cnt++; // 카운터 증가
     }
@@ -85,13 +85,12 @@ public class BlackJackManager {
 	
     
 	// 카드의 값을 숫자로 반환
-    //딜러
-	public int getDCValue(Card card) {
+	public int getValue(Card card) {
         String cardValue = card.getValue();
         switch (cardValue) {
-            case "A": if(getDCSum()>10) {
+            case "A": if(getDCSum()>10||getUCSum()>10) {
             	return 1;            	
-            }else if(getDCSum()<11) {
+            }else if(getDCSum()<11||getUCSum()<11) {
             	return 11;
             }
             case "2": return 2;
@@ -105,26 +104,7 @@ public class BlackJackManager {
             default: return 10;
         } 
     }
-	//유저
-	public int getUCValue(Card card) {
-        String cardValue = card.getValue();
-        switch (cardValue) {
-            case "A": if(getUCSum()>10) {
-            	return 1;
-            }else if(getUCSum()<11) {
-            	return 11;
-            }
-            case "2": return 2;
-            case "3": return 3;
-            case "4": return 4;
-            case "5": return 5;
-            case "6": return 6;
-            case "7": return 7;
-            case "8": return 8;
-            case "9": return 9;
-            default: return 10;
-        } 
-    }
+	
 	
 	
 	//getter/setter
@@ -142,7 +122,7 @@ public class BlackJackManager {
 
 	public void setUCSum(int uCSum) {
 		for(int i=getCount(); i<UC.size(); i++) {
-		    int cardValue = getUCValue(UC.get(i));	// UC의 값을 carValue에 저장
+		    int cardValue = getValue(UC.get(i));	// UC의 값을 carValue에 저장
 		    setCount(i);	// 중복추가 방지를 위해 i값 유지
 
 		    if(cardValue == 11) {	// cardValue에 11값이 들어오면

@@ -78,11 +78,11 @@ public class BlackJack {
         BJM.card.shuffle();
         Thread.sleep(2000); // 2초 딜레이
         
-        for (int i = 0; i <= 1; i++) {
+        for (int i = 0; i <= 1; i++) {	//딜러와 유저의 초기설정
             BJM.UC.add(BJM.card.drawCard());
-            BJM.setUCSum(BJM.getDCValue(BJM.UC.get(i)));
+            BJM.setUCSum(BJM.getValue(BJM.UC.get(i)));
             BJM.DC.add(BJM.card.drawCard());
-            BJM.setDCSum(BJM.getDCValue(BJM.DC.get(i)));
+            BJM.setDCSum(BJM.getValue(BJM.DC.get(i)));
         }
         System.out.println("딜러가 판을 깔고있습니다...");
     	Thread.sleep(2000); // 2초 딜레이
@@ -90,7 +90,7 @@ public class BlackJack {
         System.out.println("--------------------");
         System.out.println("딜러의 카드");
 
-        System.out.println(BJM.DC.get(0));
+        System.out.println(BJM.DC.get(0));	//딜러는 첫카드만 공개, 유저는 이를 보고 추리
         
         Thread.sleep(2000); // 2초 딜레이
         
@@ -125,22 +125,22 @@ public class BlackJack {
              UserManager.printInBox("PUSH");
                 break;
             case 1:
-            	UserManager.printInBox("유저 WIN "+BJM.getUserBet()+"개의 칩 흭득");
+            	UserManager.printInBox("유저 WIN |"+BJM.getUserBet()+"개의 칩 흭득");
                 break;
             case 2:
-            	UserManager.printInBox("유저 BlackJack "+((int)BJM.getUserBet()*1.5)+"개의 칩 흭득");
+            	UserManager.printInBox("유저 BlackJack |"+((int)BJM.getUserBet()*1.5)+"개의 칩 흭득");
                 break;
             case 3:
-            	UserManager.printInBox("딜러 BUST, 유저 WIN "+BJM.getUserBet()+"개의 칩 흭득");
+            	UserManager.printInBox("딜러 BUST, 유저 WIN |"+BJM.getUserBet()+"개의 칩 흭득");
                 break;
             case 4:
-            	UserManager.printInBox("딜러 WIN "+BJM.getUserBet()+"개의 칩 감소");
+            	UserManager.printInBox("딜러 WIN |"+BJM.getUserBet()+"개의 칩 감소");
                 break;
             case 5:
-            	UserManager.printInBox("딜러 BlackJack "+BJM.getUserBet()+"개의 칩 감소");
+            	UserManager.printInBox("딜러 BlackJack |"+BJM.getUserBet()+"개의 칩 감소");
                 break;
             case 6:
-            	UserManager.printInBox("유저 BUST, 딜러 WIN "+BJM.getUserBet()+"개의 칩 감소");
+            	UserManager.printInBox("유저 BUST, 딜러 WIN |"+BJM.getUserBet()+"개의 칩 감소");
                 break;
             default:
                 System.out.println("에러");
