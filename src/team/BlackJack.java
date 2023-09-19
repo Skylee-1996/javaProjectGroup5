@@ -3,7 +3,7 @@ package team;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class BlackJack {
+public class BlackJack implements IBlackJack{
     BlackJackManager BJM = new BlackJackManager(); // 블랙잭 게임 매니저 인스턴스
 
     private String userID;       // 사용자 아이디
@@ -11,12 +11,14 @@ public class BlackJack {
 
     // 블랙잭 게임 시작 메서드
     public void start(Scanner scan, String id, int userBalance, UserManager u) throws InterruptedException, IOException {
+    	boolean end = true;
+    	
     	setUserID(id);
         System.out.println("어서오세요. " + getUserID() + "님");
-        
-        while(true) {
-        BJM = new BlackJackManager();	//게임 초기화
         setUserBalance(userBalance);
+        
+        while(end) {
+        BJM = new BlackJackManager();	//게임 초기화
         System.out.println("현재 보유 칩은 " + getUserBalance() + "입니다.");
         
         userBet(scan);	// 유저 베팅칩 설정
@@ -57,7 +59,7 @@ public class BlackJack {
             break;
         }
         u.userUpdate();
-        u.endGame(scan, id, userBalance, u);
+        end = u.endGame(scan, id, userBalance, u);
         }
     }
 
@@ -111,7 +113,7 @@ public class BlackJack {
     // 게임 결과 출력
     public void printResult(int result) throws InterruptedException {
     	System.out.println("결과를 확인중입니다...");
-    	Thread.sleep(3000); // 3초 딜레이
+    	Thread.sleep(1500); // 3초 딜레이
         System.out.println("--------------------");
         System.out.println("딜러의 카드");
 
@@ -125,22 +127,22 @@ public class BlackJack {
              UserManager.printInBox("PUSH");
                 break;
             case 1:
-            	UserManager.printInBox("유저 WIN |"+BJM.getUserBet()+"개의 칩 흭득");
+            	UserManager.printInBox("유저 WIN |"+BJM.getUserBet()+"개의 칩 증가 현재 칩개수: " + userBalance);
                 break;
             case 2:
-            	UserManager.printInBox("유저 BlackJack |"+((int)BJM.getUserBet()*1.5)+"개의 칩 흭득");
+            	UserManager.printInBox("유저 BlackJack |"+((int)BJM.getUserBet()*1.5)+"개의 칩 증가 현재 칩개수:" + userBalance);
                 break;
             case 3:
-            	UserManager.printInBox("딜러 BUST, 유저 WIN |"+BJM.getUserBet()+"개의 칩 흭득");
+            	UserManager.printInBox("딜러 BUST, 유저 WIN |"+BJM.getUserBet()+"개의 칩 증가 현재 칩개수:"  + userBalance);
                 break;
             case 4:
-            	UserManager.printInBox("딜러 WIN |"+BJM.getUserBet()+"개의 칩 감소");
+            	UserManager.printInBox("딜러 WIN |"+BJM.getUserBet()+"개의 칩 감소 현재 칩개수: " + userBalance);
                 break;
             case 5:
-            	UserManager.printInBox("딜러 BlackJack |"+BJM.getUserBet()+"개의 칩 감소");
+            	UserManager.printInBox("딜러 BlackJack |"+BJM.getUserBet()+"개의 칩 감소 현재 칩개수: " + userBalance);
                 break;
             case 6:
-            	UserManager.printInBox("유저 BUST, 딜러 WIN |"+BJM.getUserBet()+"개의 칩 감소");
+            	UserManager.printInBox("유저 BUST, 딜러 WIN |"+BJM.getUserBet()+"개의 칩 감소 현재 칩개수: " + userBalance);
                 break;
             default:
                 System.out.println("에러");
@@ -151,7 +153,7 @@ public class BlackJack {
     // 베팅 금액 설정
     public void userBet(Scanner scan) {
     	while (true) {
-            System.out.print("배팅 금액을 설정해주세요> ");
+            System.out.print("칩 베팅 갯수를 설정해주세요> ");
             BJM.setUserBet(scan.nextInt());
             if (BJM.getUserBet() > 0 && getUserBalance() > BJM.getUserBet()) {	// 유저는 본인의 보유 칩 이상 그리고 음수의 칩을 걸 수 없음 
                 break;
@@ -164,32 +166,40 @@ public class BlackJack {
   
     // 게임 결과 계산 및 반환
     public int gameResult(UserManager u) {
+        int result;
+        int bet = BJM.getUserBet();
+        
         if (BJM.getUCSum() == BJM.getDCSum()) {
-            u.setUserBalance(getUserID(), getUserBalance());
-            return 0;
+            result = 0;
         } else if ((21 - BJM.getUCSum() < 21 - BJM.getDCSum()) && (BJM.getUCSum() < 21 && BJM.getDCSum() < 21)) {
-            u.setUserBalance(getUserID(), getUserBalance()+BJM.getUserBet());
-            return 1;
+            updateUserBalance(bet);
+            result = 1;
         } else if (BJM.getUCSum() == 21) {
-            u.setUserBalance(getUserID(), getUserBalance()+((int) (BJM.getUserBet() * 1.5)));
-            return 2;
+            updateUserBalance((int)(bet * 1.5));
+            result = 2;
         } else if (BJM.getDCSum() > 21) {
-            u.setUserBalance(getUserID(), getUserBalance()+BJM.getUserBet());
-            return 3;
+            updateUserBalance(bet);
+            result = 3;
         } else if ((21 - BJM.getUCSum() > 21 - BJM.getDCSum()) && (BJM.getUCSum() < 21 && BJM.getDCSum() < 21)) {
-            u.setUserBalance(getUserID(), getUserBalance()-BJM.getUserBet());
-            return 4;
+            updateUserBalance(-bet);
+            result = 4;
         } else if (BJM.getDCSum() == 21) {
-            u.setUserBalance(getUserID(), getUserBalance()-BJM.getUserBet());
-            return 5;
+            updateUserBalance(-bet);
+            result = 5;
         } else if (BJM.getUCSum() > 21) {
-            u.setUserBalance(getUserID(), getUserBalance()-BJM.getUserBet());
-            return 6;
-        } else
-            return -1;
+            updateUserBalance(-bet);   
+            result = 6;
+        } else {
+            result = -1;
+        }
+
+        u.setUserBalance(getUserID(), userBalance);
+        return result;
     }
 
-    
+    private void updateUserBalance(int amount) {
+        userBalance += amount;
+    }   
     
     //getter/setter
 	public String getUserID() {

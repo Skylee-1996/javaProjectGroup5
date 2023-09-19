@@ -2,7 +2,7 @@ package team;
 
 import java.util.ArrayList;
 
-public class BlackJackManager {
+public class BlackJackManager implements IBlackJackManager{
     ArrayList<Card> DC = new ArrayList<>(); // 딜러의 카드팩
     ArrayList<Card> UC = new ArrayList<>(); // 유저의 카드팩
     Deck card = new Deck();
@@ -20,7 +20,7 @@ public class BlackJackManager {
     // 룰 설명 출력 메서드
     public void printRule() {
         System.out.println("	 * 1. 게임시작 전 플레이어는 걸고싶은 액수의 돈을 건다\r\n"
-                + "	 * 2. 플레이어 먼저 2장 받고 딜러가 2장을 받는다(참가는 모든 카드를 오픈하되, 딜러는 받은 첫번째 카드만 오픈한다.)\r\n"
+                + "	 * 2. 유저 2장, 딜러 2장을 받는다(유저는 모든 카드를 오픈하되, 딜러는 받은 첫번째 카드만 오픈한다.)\r\n"
                 + "	 * \r\n"
                 + "	 * \r\n"
                 + "	 * \r\n"
