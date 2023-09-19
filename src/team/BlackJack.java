@@ -165,25 +165,25 @@ public class BlackJack {
     // 게임 결과 계산 및 반환
     public int gameResult(UserManager u) {
         if (BJM.getUCSum() == BJM.getDCSum()) {
-            u.setUserBalance(getUserID(), 0);
+            u.setUserBalance(getUserID(), getUserBalance());
             return 0;
         } else if ((21 - BJM.getUCSum() < 21 - BJM.getDCSum()) && (BJM.getUCSum() < 21 && BJM.getDCSum() < 21)) {
-            u.setUserBalance(getUserID(), BJM.getUserBet());
+            u.setUserBalance(getUserID(), getUserBalance()+BJM.getUserBet());
             return 1;
         } else if (BJM.getUCSum() == 21) {
-            u.setUserBalance(getUserID(), (int) (BJM.getUserBet() * 1.5));
+            u.setUserBalance(getUserID(), getUserBalance()+((int) (BJM.getUserBet() * 1.5)));
             return 2;
         } else if (BJM.getDCSum() > 21) {
-            u.setUserBalance(getUserID(), BJM.getUserBet());
+            u.setUserBalance(getUserID(), getUserBalance()+BJM.getUserBet());
             return 3;
         } else if ((21 - BJM.getUCSum() > 21 - BJM.getDCSum()) && (BJM.getUCSum() < 21 && BJM.getDCSum() < 21)) {
-            u.setUserBalance(getUserID(), -BJM.getUserBet());
+            u.setUserBalance(getUserID(), getUserBalance()-BJM.getUserBet());
             return 4;
         } else if (BJM.getDCSum() == 21) {
-            u.setUserBalance(getUserID(), -BJM.getUserBet());
+            u.setUserBalance(getUserID(), getUserBalance()-BJM.getUserBet());
             return 5;
         } else if (BJM.getUCSum() > 21) {
-            u.setUserBalance(getUserID(), -BJM.getUserBet());
+            u.setUserBalance(getUserID(), getUserBalance()-BJM.getUserBet());
             return 6;
         } else
             return -1;
