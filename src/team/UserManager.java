@@ -314,11 +314,25 @@ public class UserManager {
             br.close();
         }
 
-      public void printInBox(String s) {
+      public static void printInBox(String s) {
     	   System.out.println("┌───────────────────────────────────────────────┐");
 	       System.out.println("│ "+s+" ");
 	       System.out.println("└───────────────────────────────────────────────┘");
       }
       
+      public boolean endGame(Scanner scan, String id, int userBalance, UserManager u) throws InterruptedException, IOException {
+	    	CasinoManager m = new CasinoManager();
+	    	  System.out.println("1.다음게임시작 2.게임선택 3.종료");
+	          int select = scan.nextInt();
+
+	          switch(select) {
+	           case 1: break;
+	           case 2: m.selectGame(scan, id, userBalance, u); break;
+	           case 3: 
+	        	   	return false;
+	          
+	          }
+	          return true;
+	    }
 
 }
