@@ -91,13 +91,14 @@ public class CasinoManager {
     public void selectGame(Scanner scan, String id, int userBalance, UserManager u) throws InterruptedException, IOException {
 
        u.printInBox("1.바카라 |2.블랙잭 |3.인디언포커 |4.랭킹 |5.종료");
+       System.out.println("게임을 선택해주세요");
         Baccarat baccarat = new Baccarat();
         BlackJack blackjack = new BlackJack(); 
 
         IndianPokerManager Indian = new IndianPokerManager();
         int menu = 0;
         do {
-            System.out.println("게임을 선택해주세요");
+            
             menu = scan.nextInt();
             switch (menu) {
                 case 1:
