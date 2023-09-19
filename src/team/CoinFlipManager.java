@@ -7,13 +7,14 @@ public class CoinFlipManager implements ICoinFlip{
 	Scanner scan;
 	CoinFlip user;
 	UserManager u = new UserManager();
+	CasinoManager cm = new CasinoManager();
 	
 	public void gameStart(Scanner scan, String id, int userBalance, UserManager uM) throws IOException, InterruptedException {
 		this.scan = scan;
 		user = new CoinFlip(id, userBalance);
 		int menu = 0;
 		
-		while(menu != 1 || menu != 2) {
+		while(menu != 1 || menu != 2 || menu != 3) {
 			System.out.println("1.게임 시작 | 2.게임 설명 | 3.게임 종료");
 			if (scan.hasNextInt()) {
 				menu = scan.nextInt();
@@ -25,16 +26,16 @@ public class CoinFlipManager implements ICoinFlip{
 					checkFrontBack = circle();
 					if(frontBack[1] == checkFrontBack) {
 						System.out.println("맞추셨습니다!!");
-						user.plusMoney(frontBack[0] * 2);
-						u.printInBox("+" + (frontBack[0] * 2) + "chip(s)");
-						u.printInBox("user chip(s): " + user.getMoney());
+						user.plusMoney(frontBack[0]);
+						UserManager.printInBox("+" + (frontBack[0] * 2) + "chip(s)");
+						UserManager.printInBox("user chip(s): " + user.getMoney());
 						uM.setUserBalance(id, user.getMoney());
 						uM.userUpdate();
 					}else if(frontBack[1] != checkFrontBack) {
 						System.out.println("틀리셨습니다!!");
 						user.minusMoney(frontBack[0]);
-						u.printInBox("-" + frontBack[0] + "chip(s)");
-						u.printInBox("user chip(s): " + user.getMoney());
+						UserManager.printInBox("-" + frontBack[0] + "chip(s)");
+						UserManager.printInBox("user chip(s): " + user.getMoney());
 						uM.setUserBalance(id, user.getMoney());
 						uM.userUpdate();
 					}
@@ -55,7 +56,7 @@ public class CoinFlipManager implements ICoinFlip{
 					}
 				}else if(menu == 3) {
 					System.out.println("게임 선택 메뉴로 돌아갑니다.");
-					break;
+					cm.selectGame(scan, id, user.getMoney(), uM);
 				}else {
 					System.out.println("알맞은 숫자를 입력하세요!!");
 				}
@@ -74,8 +75,8 @@ public class CoinFlipManager implements ICoinFlip{
 		int selectMenu = 0;
 		int mySelect[] = new int[2];
 		while(true) {
-			u.printInBox("▼▼▼▼▼▼▼▼베팅하려는 코인의 앞 뒤를 선택해주세요.▼▼▼▼▼▼▼▼");
-			u.printInBox("1.앞 | 2.뒤");
+			UserManager.printInBox("▼▼▼▼▼▼▼▼베팅하려는 코인의 앞 뒤를 선택해주세요.▼▼▼▼▼▼▼▼");
+			UserManager.printInBox("1.앞 | 2.뒤");
 			if(scan.hasNext()) {
 				selectMenu = scan.nextInt();
 				
@@ -89,10 +90,10 @@ public class CoinFlipManager implements ICoinFlip{
 					mySelect[1] = 2;
 					return mySelect;
 				default:
-					u.printInBox("잘못된 선택");
+					UserManager.printInBox("잘못된 선택");
 				}
 			}else {
-				u.printInBox("숫자를 입력해주세요");
+				UserManager.printInBox("숫자를 입력해주세요");
 	            scan.next(); // 입력 버퍼 비우기
 	        }
 		}
@@ -102,7 +103,7 @@ public class CoinFlipManager implements ICoinFlip{
 	
 	public int bet(Scanner scan) {
 		while(true) {
-			u.printInBox("베팅하시려는 칩 수를 입력해주세요");
+			UserManager.printInBox("베팅하시려는 칩 수를 입력해주세요");
 			System.out.printf(">> ");
 			int betMoney = 0;
 			if (scan.hasNextInt()) {
@@ -160,14 +161,14 @@ public class CoinFlipManager implements ICoinFlip{
 		
 		int destiny = (int)(Math.random() * 2) + 1;
 		if(destiny == 1) {
-			u.printInBox("=====================결과=====================");
+			UserManager.printInBox("=====================결과=====================");
 			printFront();
-			u.printInBox("코인: 앞면");
+			UserManager.printInBox("코인: 앞면");
 			return destiny;
 		}else if(destiny == 2) {
-			u.printInBox("=====================결과=====================");
+			UserManager.printInBox("=====================결과=====================");
 			printBack();
-			u.printInBox("코인: 뒷면");
+			UserManager.printInBox("코인: 뒷면");
 			return destiny;
 		}
 		return 0;
@@ -175,6 +176,9 @@ public class CoinFlipManager implements ICoinFlip{
 	
 	public void printFront() {
 		System.out.println("                               \r\n"
+				+ "                               \r\n"
+				+ "                               \r\n"
+				+ "                               \r\n"
 				+ "             :....:            \r\n"
 				+ "         :7BZPPSbqPgBr:        \r\n"
 				+ "       igg2i:. ....irDBQ:      \r\n"
@@ -199,6 +203,9 @@ public class CoinFlipManager implements ICoinFlip{
 		System.out.println("                               \r\n"
 				+ "                               \r\n"
 				+ "                               \r\n"
+				+ "                               \r\n"
+				+ "                               \r\n"
+				+ "                               \r\n"
 				+ "                 .::::i.       \r\n"
 				+ "                IBQKqXqRX      \r\n"
 				+ "              rBBY....::KB7    \r\n"
@@ -220,6 +227,9 @@ public class CoinFlipManager implements ICoinFlip{
 		System.out.println("                               \r\n"
 				+ "                               \r\n"
 				+ "                               \r\n"
+				+ "                               \r\n"
+				+ "                               \r\n"
+				+ "                               \r\n"
 				+ "                  rE5USSY      \r\n"
 				+ "                :5BBr7i7SB.    \r\n"
 				+ "               SIIZ..:ii:SB.   \r\n"
@@ -239,6 +249,9 @@ public class CoinFlipManager implements ICoinFlip{
 	}
 	public void print3() {
 		System.out.println("                               \r\n"
+				+ "                               \r\n"
+				+ "                               \r\n"
+				+ "                               \r\n"
 				+ "                               \r\n"
 				+ "                 .gbBBMBD.     \r\n"
 				+ "                bB 1B7.:7BI    \r\n"
@@ -281,6 +294,9 @@ public class CoinFlipManager implements ICoinFlip{
 	}
 	public void print5() {
 		System.out.println("                               \r\n"
+				+ "                               \r\n"
+				+ "                               \r\n"
+				+ "                               \r\n"
 				+ "                  .   .        \r\n"
 				+ "                DQgZBBqQi      \r\n"
 				+ "               Bv....B: BP     \r\n"
@@ -303,6 +319,9 @@ public class CoinFlipManager implements ICoinFlip{
 	public void print6() {
 		System.out.println("                               \r\n"
 				+ "                               \r\n"
+				+ "                               \r\n"
+				+ "                               \r\n"
+				+ "                               \r\n"
 				+ "             .gBQQQDBBu        \r\n"
 				+ "            PBi.:...JBbSJ      \r\n"
 				+ "           7Bi.i:.::.5Q:LRi    \r\n"
@@ -323,6 +342,9 @@ public class CoinFlipManager implements ICoinFlip{
 	}
 	public void print7() {
 		System.out.println("                               \r\n"
+				+ "                               \r\n"
+				+ "                               \r\n"
+				+ "                               \r\n"
 				+ "                               \r\n"
 				+ "            sBBQQRQBQr         \r\n"
 				+ "          :Qq:.....ZQBP:       \r\n"
@@ -345,6 +367,9 @@ public class CoinFlipManager implements ICoinFlip{
 	
 	public void printBack() {
 		System.out.println("                               \r\n"
+				+ "                               \r\n"
+				+ "                               \r\n"
+				+ "                               \r\n"
 				+ "                               \r\n"
 				+ "                               \r\n"
 				+ "            .ZgdZdM:           \r\n"

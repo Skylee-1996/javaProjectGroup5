@@ -17,7 +17,7 @@ public class UserManager {
 	  
 	 //회원등록
 	  public void userAdd(Scanner scan) throws IOException {
-		    System.out.println("등록하실 회원ID,비밀번호,회원명,자본금을 입력해주세요.");
+		    System.out.println("등록하실 회원ID,비밀번호,회원명을 입력해주세요.");
 		    
 		    System.out.print("회원ID: ");
 		    String id = scan.next();

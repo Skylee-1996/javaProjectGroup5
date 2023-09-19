@@ -1,4 +1,5 @@
-admin admin 관리자 100
 poxz12345 12345 kim 1100
+admin admin 관리자 100
 tnwls052 12345 kim.j 100
-a 123 sky 41
+a 123 sky 0
+b 123 1 119
