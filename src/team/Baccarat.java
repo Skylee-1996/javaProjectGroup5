@@ -12,8 +12,6 @@ public class Baccarat implements IBaccarat {
 
     public void start(Scanner scan, String id, int userBalance, UserManager u) throws InterruptedException, IOException {
     	List<String> gameHistory = new ArrayList<>();
-   
-    	
     	BaccaratManager bm = new BaccaratManager();
     	
     	int bankerScore =0;
@@ -30,8 +28,6 @@ public class Baccarat implements IBaccarat {
         int betAmount = bm.hBetting(scan, userBalance);
         String bet = bm.wBetting(scan, userBalance, betAmount);
           
-     
-        
         System.out.println("덱을 셔플합니다!");
         System.out.println("뱅커가 카드를 뽑습니다.");
         bm.drawCardWithDelay(bankerCards, deck);
@@ -86,8 +82,9 @@ public class Baccarat implements IBaccarat {
         } else {
             System.out.println("뱅커는 네츄럴 " + bankerScore + "이므로 세 번째 카드를 뽑지 않습니다.");
         }
-
-        // 새로운 점수 표시
+        
+        bm.delay();
+        // 총 점수 표시
         UserManager.printInBox("뱅커의 총 점수는: " + bankerScore+"   플레이어의 총 점수는: " + playerScore);
         String result = bm.getResult(playerScore, bankerScore);
         UserManager.printInBox("결과: " + result + " 승!");
@@ -111,7 +108,6 @@ public class Baccarat implements IBaccarat {
         u.setUserBalance(id, userBalance);
         u.userUpdate();
         end =  bm.endGame(scan, id, userBalance, u);
-        
     	   }//while? 
        } //main   
    	}//class

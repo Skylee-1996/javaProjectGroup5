@@ -17,7 +17,8 @@ public class UserManager {
 	  
 	 //회원등록
 	  public void userAdd(Scanner scan) throws IOException {
-		    System.out.println("등록하실 회원ID,비밀번호,회원명을 입력해주세요.");
+		  while(true){
+		   System.out.println("등록하실 회원ID,비밀번호,회원명을 입력해주세요.");
 		    
 		    System.out.print("회원ID: ");
 		    String id = scan.next();
@@ -25,7 +26,7 @@ public class UserManager {
 		    //아이디 중복 확인
 		    if (isUserIdExists(id)) {
 		        System.out.println("이미 존재하는 아이디입니다.");
-		        return;
+		        continue;
 		    }
 		    
 		    System.out.print("비밀번호: ");
@@ -37,12 +38,14 @@ public class UserManager {
 		    //입력 검증
 		    if (id.isEmpty() || password.isEmpty() || name.isEmpty()) {
 		        System.out.println("잘못된 입력입니다. 모든 필드를 올바르게 채우세요.");
-		        return;
+		        continue;
 		    }
 
 		    userList.add(new User(id, password, name));
 		    System.out.println("입력하신 정보로 등록되었습니다.");
 		    userUpdate();
+		    break;
+	   }
 	  }
 
 	  //아이디 중복검사
@@ -309,9 +312,9 @@ public class UserManager {
       	
 
       	public static void printInBox(String s) {
-    	   System.out.println("╔═══════════════════════════════════════════════╗");
+    	   System.out.println("╔═══════════════════════════════════════════════════╗");
 	       System.out.println("  "+s+"      ");
-	       System.out.println("╚═══════════════════════════════════════════════╝");
+	       System.out.println("╚═══════════════════════════════════════════════════╝");
       	}
 
       
