@@ -1,10 +1,9 @@
 package team;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Scanner;
 
-public class BlackJack {
+public class BlackJack implements IBlackJack{
     BlackJackManager BJM = new BlackJackManager(); // 블랙잭 게임 매니저 인스턴스
 
     private String userID;       // 사용자 아이디
@@ -12,10 +11,12 @@ public class BlackJack {
 
     // 블랙잭 게임 시작 메서드
     public void start(Scanner scan, String id, int userBalance, UserManager u) throws InterruptedException, IOException {
+    	boolean end = true;
+    	
     	setUserID(id);
         System.out.println("어서오세요. " + getUserID() + "님");
         setUserBalance(userBalance);
-        boolean end = true;
+        
         while(end) {
         BJM = new BlackJackManager();	//게임 초기화
         System.out.println("현재 보유 칩은 " + getUserBalance() + "입니다.");
@@ -58,7 +59,7 @@ public class BlackJack {
             break;
         }
         u.userUpdate();
-       end = u.endGame(scan, id, userBalance, u);
+        end = u.endGame(scan, id, userBalance, u);
         }
     }
 
@@ -152,7 +153,7 @@ public class BlackJack {
     // 베팅 금액 설정
     public void userBet(Scanner scan) {
     	while (true) {
-            System.out.print("배팅 금액을 설정해주세요> ");
+            System.out.print("칩 베팅 갯수를 설정해주세요> ");
             BJM.setUserBet(scan.nextInt());
             if (BJM.getUserBet() > 0 && getUserBalance() > BJM.getUserBet()) {	// 유저는 본인의 보유 칩 이상 그리고 음수의 칩을 걸 수 없음 
                 break;
