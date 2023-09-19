@@ -18,7 +18,6 @@ public class CasinoManager {
 
             	m.printInBox("회원명: " + m.userList.get(i).getName() + " 자본금: " + m.userList.get(i).getBalance()+"원");
 
-
                 foundUser = true;
                 Thread loginThread = new Thread(() -> {
                     try {
